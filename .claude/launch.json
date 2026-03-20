@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "/Users/paulwhelan/.nvm/versions/node/v20.20.1/bin/node",
+      "runtimeArgs": ["/Users/paulwhelan/Code/co-pilot/node_modules/next/dist/bin/next", "dev"],
+      "port": 3000,
+      "autoPort": true,
+      "env": {
+        "PATH": "/Users/paulwhelan/.nvm/versions/node/v20.20.1/bin:/usr/bin:/bin"
+      }
+    }
+  ]
+}
