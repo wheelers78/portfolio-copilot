@@ -23,7 +23,7 @@ export default function HeroSection({
       <div className="mx-auto w-full max-w-[1040px]">
         <div className="w-full text-left">
           <TabsRail audiences={audiences} activeTab={activeTab} onTabChange={onTabChange} isInitialLoad={isInitialLoad} />
-          <HeadlinePanel activeTab={activeTab} headline={headline} isInitialLoad={!isInitialLoad} />
+          <HeadlinePanel activeTab={activeTab} headline={headline} isInitialLoad={isInitialLoad} />
         </div>
       </div>
     </section>
