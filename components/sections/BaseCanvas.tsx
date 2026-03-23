@@ -42,7 +42,7 @@ export default function BaseCanvas() {
   const [time, setTime] = React.useState("");
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1800);
+    const timer = setTimeout(() => setLoading(false), 2500);
     return () => clearTimeout(timer);
   }, []);
 

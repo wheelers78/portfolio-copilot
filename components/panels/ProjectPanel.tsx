@@ -22,7 +22,7 @@ export default function ProjectPanel() {
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-2 h-2 rounded-full bg-[var(--accent)]" />
                   <p className="text-xs tracking-[0.16em] uppercase text-[var(--muted)]">
-                    {project.company}
+                    {project.roleTitle}
                   </p>
                   <span className="text-xs text-[var(--subtle)]">·</span>
                   <p className="text-xs font-mono text-[var(--subtle)]">

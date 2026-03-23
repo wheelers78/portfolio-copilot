@@ -116,7 +116,7 @@ function RelatedWork({
           >
             <div className="flex-1 min-w-0">
               <span className="text-[12px] font-medium text-[var(--text-primary)]">{rel.title}</span>
-              <span className="ml-2 text-[11px] text-[var(--text-muted)]">{rel.company} · {rel.period}</span>
+              <span className="ml-2 text-[11px] text-[var(--text-muted)]">{rel.roleTitle} · {rel.period}</span>
             </div>
             <svg
               width="10" height="10" viewBox="0 0 10 10" fill="none"
@@ -153,7 +153,7 @@ export default function ProjectWindow({ project }: ProjectWindowProps) {
       <div className="space-y-4 pb-6">
         <div className="space-y-1">
           <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--text-muted)] opacity-50">
-            {project.company}
+            {project.roleTitle}
           </p>
           <h1
             className="font-sans leading-[1.1] text-[var(--text-primary)]"
@@ -177,7 +177,7 @@ export default function ProjectWindow({ project }: ProjectWindowProps) {
         <div key={i} className={i === 0 ? "pb-3" : "py-3"}>
           <ImageBlock
             src={src}
-            company={project.company ?? ""}
+            company={project.roleTitle ?? ""}
             title={project.title}
             height={project.imageHeight ?? 360}
           />

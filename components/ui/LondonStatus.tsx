@@ -22,9 +22,9 @@ const londonHourFormatter = new Intl.DateTimeFormat("en-GB", {
 });
 
 const getGreeting = (hourInLondon: number) => {
-  if (hourInLondon >= 5 && hourInLondon < 12) return "Good morning";
-  if (hourInLondon >= 12 && hourInLondon < 17) return "Good afternoon";
-  if (hourInLondon >= 17 && hourInLondon < 22) return "Good evening";
+  if (hourInLondon >= 5 && hourInLondon < 12) return "Good Morning";
+  if (hourInLondon >= 12 && hourInLondon < 17) return "Good Afternoon";
+  if (hourInLondon >= 17 && hourInLondon < 22) return "Good Evening";
   return "Good night";
 };
 
@@ -34,7 +34,7 @@ export default function LondonStatus({
   time: providedTime,
 }: LondonStatusProps) {
   const [time, setTime] = React.useState("");
-  const [greeting, setGreeting] = React.useState("Good morning");
+  const [greeting, setGreeting] = React.useState("Good Morning");
 
   React.useEffect(() => {
     const updateLondonStatus = () => {

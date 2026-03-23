@@ -119,7 +119,7 @@ export default function CopilotPanelV2() {
                 )}
 
                 {/* Related work */}
-                {answer.relatedProjects.length > 0 && (
+                {answer.relatedProjects && answer.relatedProjects.length > 0 && (
                   <div className="space-y-3 pt-6 border-t border-[var(--border)]">
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />

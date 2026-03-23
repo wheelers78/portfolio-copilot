@@ -217,7 +217,7 @@ const CopilotPanel = forwardRef<HTMLElement, CopilotPanelProps>(
                     {/* Sidebar */}
                     <div className="space-y-8">
                       {/* Related topics */}
-                      {answer.relatedTopics.length > 0 && (
+                      {answer.relatedTopics && answer.relatedTopics.length > 0 && (
                         <div>
                           <p className="text-xs tracking-[0.14em] uppercase text-[var(--muted)] mb-3">
                             Related topics
@@ -236,7 +236,7 @@ const CopilotPanel = forwardRef<HTMLElement, CopilotPanelProps>(
                       )}
 
                       {/* Related projects */}
-                      {answer.relatedProjects.length > 0 && (
+                      {answer.relatedProjects && answer.relatedProjects.length > 0 && (
                         <div>
                           <p className="text-xs tracking-[0.14em] uppercase text-[var(--muted)] mb-3">
                             Related work
@@ -268,7 +268,7 @@ const CopilotPanel = forwardRef<HTMLElement, CopilotPanelProps>(
                   </div>
 
                   {/* Follow-up prompts */}
-                  {answer.followUpPrompts.length > 0 && (
+                  {answer.followUpPrompts && answer.followUpPrompts.length > 0 && (
                     <div className="px-8 py-5 border-t border-[var(--border)] bg-[var(--surface)]">
                       <p className="text-xs text-[var(--muted)] mb-3">Follow up —</p>
                       <div className="flex flex-wrap gap-2">

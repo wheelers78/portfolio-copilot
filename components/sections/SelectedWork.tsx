@@ -75,7 +75,7 @@ export default function SelectedWork({ onAskAbout, copilotRef }: SelectedWorkPro
                 {/* Right: metadata + CTA */}
                 <div className="ml-9 md:ml-0 md:text-right flex flex-col items-start md:items-end gap-3 md:min-w-40">
                   <div>
-                    <p className="text-xs text-[var(--muted)]">{project.company}</p>
+                    <p className="text-xs text-[var(--muted)]">{project.roleTitle}</p>
                     <p className="text-xs text-[var(--subtle)] font-mono">{project.period}</p>
                   </div>
                   <button
