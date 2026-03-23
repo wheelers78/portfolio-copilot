@@ -20,35 +20,32 @@ export function TextShimmer({
   spread = 2,
   variant = 'light',
 }: TextShimmerProps) {
-  const dynamicSpread = useMemo(() => {
-    return children.length * spread;
-  }, [children, spread]);
-
-  const baseColor = variant === 'dark' ? '#ffffff' : '#a1a1aa';
-  const shimmerColor = variant === 'dark' ? '#e0e0e0' : '#000';
+  const minOpacity = variant === 'dark' ? 0.7 : 0.4;
+  const maxOpacity = 1;
+  const glowColor = variant === 'dark' ? 'rgba(224, 224, 224, 0.8)' : 'rgba(0, 0, 0, 0.4)';
 
   return (
     <motion.span
       className={cn(
-        'relative inline-block bg-[length:250%_100%,auto] bg-clip-text',
-        'text-transparent',
+        'relative inline-block',
         className
       )}
-      initial={{ backgroundPosition: '100% center' }}
-      animate={{ backgroundPosition: '0% center' }}
+      style={{
+        color: variant === 'dark' ? '#ffffff' : '#a1a1aa',
+      }}
+      animate={{
+        textShadow: [
+          `0 0 10px ${glowColor}`,
+          `0 0 25px ${glowColor}`,
+          `0 0 10px ${glowColor}`,
+        ],
+        opacity: [minOpacity, maxOpacity, minOpacity],
+      }}
       transition={{
         repeat: Infinity,
         duration,
-        ease: 'linear',
+        ease: 'easeInOut',
       }}
-      style={
-        {
-          '--spread': `${dynamicSpread}px`,
-          backgroundImage: `linear-gradient(90deg, transparent calc(50% - var(--spread)), ${shimmerColor}, transparent calc(50% + var(--spread))), linear-gradient(${baseColor}, ${baseColor})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '250% 100%, auto',
-        } as React.CSSProperties
-      }
     >
       {children}
     </motion.span>

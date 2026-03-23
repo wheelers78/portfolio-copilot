@@ -57,9 +57,9 @@ export function LoadingScreen({ show }: LoadingScreenProps) {
 
           {/* Loading text */}
           <div className="fixed inset-0 z-[10000] flex items-center justify-center" style={{ opacity: 1, pointerEvents: 'none' }}>
-            <span className="text-white text-sm font-light" style={{ fontSize: '14px', letterSpacing: '0em' }}>
+            <TextShimmer variant="dark" duration={1.2} className="text-sm font-light" style={{ fontSize: '14px', letterSpacing: '0em' }}>
               P-W Loading
-            </span>
+            </TextShimmer>
           </div>
         </>
       )}
