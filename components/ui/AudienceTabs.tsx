@@ -27,7 +27,7 @@ export default function AudienceTabs() {
           <button
             key={audience}
             onClick={() => setActive(audience)}
-            className={`px-3 py-1 text-xs font-medium rounded-full transition-all ${
+            className={`px-3 py-1 text-xs font-medium rounded-full transition-all glass-base glass-button ${
               active === audience
                 ? "bg-[#1a1a18] text-[#fafaf8]"
                 : "text-[#6b6b68] hover:text-[#1a1a18]"
