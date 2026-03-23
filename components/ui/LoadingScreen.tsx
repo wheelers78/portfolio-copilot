@@ -55,17 +55,12 @@ export function LoadingScreen({ show }: LoadingScreenProps) {
             transition={{ duration: 0.3 }}
           />
 
-          {/* Loading text with shimmer */}
-          <motion.div
-            className="fixed inset-0 z-[10000] flex items-center justify-center pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            <TextShimmer className="text-sm tracking-[0em] font-light text-white" duration={2}>
+          {/* Loading text */}
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center" style={{ opacity: 1, pointerEvents: 'none' }}>
+            <span className="text-white text-sm font-light" style={{ fontSize: '14px', letterSpacing: '0em' }}>
               P-W Loading
-            </TextShimmer>
-          </motion.div>
+            </span>
+          </div>
         </>
       )}
 

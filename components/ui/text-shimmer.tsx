@@ -1,5 +1,5 @@
 'use client';
-import React, { useMemo, type JSX } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -9,28 +9,29 @@ interface TextShimmerProps {
   className?: string;
   duration?: number;
   spread?: number;
+  variant?: 'light' | 'dark';
 }
 
 export function TextShimmer({
   children,
-  as: Component = 'p',
+  as: _Component = 'p',
   className,
   duration = 2,
   spread = 2,
+  variant = 'light',
 }: TextShimmerProps) {
-  const MotionComponent = motion.create(Component as keyof JSX.IntrinsicElements);
-
   const dynamicSpread = useMemo(() => {
     return children.length * spread;
   }, [children, spread]);
 
+  const baseColor = variant === 'dark' ? '#ffffff' : '#a1a1aa';
+  const shimmerColor = variant === 'dark' ? '#e0e0e0' : '#000';
+
   return (
-    <MotionComponent
+    <motion.span
       className={cn(
         'relative inline-block bg-[length:250%_100%,auto] bg-clip-text',
-        'text-transparent [--base-color:#a1a1aa] [--base-gradient-color:#000]',
-        '[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--base-gradient-color),#0000_calc(50%+var(--spread)))] [background-repeat:no-repeat,padding-box]',
-        'dark:[--base-color:#71717a] dark:[--base-gradient-color:#ffffff] dark:[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--base-gradient-color),#0000_calc(50%+var(--spread)))]',
+        'text-transparent',
         className
       )}
       initial={{ backgroundPosition: '100% center' }}
@@ -43,11 +44,13 @@ export function TextShimmer({
       style={
         {
           '--spread': `${dynamicSpread}px`,
-          backgroundImage: `var(--bg), linear-gradient(var(--base-color), var(--base-color))`,
+          backgroundImage: `linear-gradient(90deg, transparent calc(50% - var(--spread)), ${shimmerColor}, transparent calc(50% + var(--spread))), linear-gradient(${baseColor}, ${baseColor})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '250% 100%, auto',
         } as React.CSSProperties
       }
     >
       {children}
-    </MotionComponent>
+    </motion.span>
   );
 }
