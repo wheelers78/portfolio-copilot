@@ -23,7 +23,11 @@ const FolderIcon = () => (
   </svg>
 );
 
-export default function Dock() {
+interface DockProps {
+  isInitialLoad?: boolean;
+}
+
+export default function Dock({ isInitialLoad = false }: DockProps) {
   const { openWindow, closeWindow, windows } = useWindowManager();
 
   const dockItems = [
@@ -59,9 +63,13 @@ export default function Dock() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+      initial={isInitialLoad ? undefined : { opacity: 0, y: 8, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.28, delay: 0.18, ease: "easeOut" }}
+      transition={
+        isInitialLoad
+          ? { duration: 0.28, delay: 0.18, ease: "easeOut" }
+          : { duration: 0.8, delay: 2.1, ease: [0.22, 1, 0.36, 1] }
+      }
       className="absolute bottom-16 left-1/2 z-30 -translate-x-1/2"
     >
       <div className={styles.container}>

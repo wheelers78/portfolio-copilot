@@ -1,11 +1,13 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 interface TabsRailProps {
   audiences: string[];
   activeTab: string;
   onTabChange: (audience: string) => void;
+  isInitialLoad?: boolean;
 }
 
 interface TabPosition {
@@ -13,7 +15,7 @@ interface TabPosition {
   width: number;
 }
 
-export default function TabsRail({ audiences, activeTab, onTabChange }: TabsRailProps) {
+export default function TabsRail({ audiences, activeTab, onTabChange, isInitialLoad = false }: TabsRailProps) {
   const [activePosition, setActivePosition] = useState<TabPosition>({ left: 0, width: 0 });
   const [hoveredPosition, setHoveredPosition] = useState<TabPosition | null>(null);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
@@ -46,7 +48,17 @@ export default function TabsRail({ audiences, activeTab, onTabChange }: TabsRail
   const position = hoveredPosition || activePosition;
 
   return (
-    <nav aria-label="Audience navigation" className="w-full">
+    <motion.nav
+      aria-label="Audience navigation"
+      className="w-full"
+      initial={isInitialLoad ? undefined : { opacity: 0, translateY: 15 }}
+      animate={{ opacity: 1, translateY: 0 }}
+      transition={
+        isInitialLoad
+          ? { duration: 0 }
+          : { duration: 1.0, delay: 1.7, ease: [0.22, 1, 0.36, 1] }
+      }
+    >
       <div className="relative overflow-x-auto scrollbar-hide">
         <ul className="flex items-center gap-6 pb-3 min-w-max">
           {audiences.map((audience, index) => {
@@ -85,6 +97,6 @@ export default function TabsRail({ audiences, activeTab, onTabChange }: TabsRail
           }}
         />
       </div>
-    </nav>
+    </motion.nav>
   );
 }

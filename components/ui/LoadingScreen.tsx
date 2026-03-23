@@ -29,11 +29,11 @@ export function LoadingScreen({ show }: LoadingScreenProps) {
       setStage("curtain");
     }, 1500);
 
-    // Stage 2: Curtain animation - 1 second
-    // Stage 3: Done - fade out
+    // Stage 2: Curtain animation - blocks lift away
+    // Total: 0.24s delay (top block) + 1.0s duration + 0.1s buffer = 1.34s
     const stage2Timer = setTimeout(() => {
       setStage("done");
-    }, 1500 + 1000);
+    }, 1500 + 1350);
 
     return () => {
       clearTimeout(stage1Timer);
@@ -71,30 +71,35 @@ export function LoadingScreen({ show }: LoadingScreenProps) {
 
       {stage === "curtain" && (
         <>
-          {/* Stage 2: Stepped curtain animation - four panels */}
+          {/* Fade overlay - dims as blocks lift away */}
           <motion.div
             className="fixed inset-0 z-[9999] bg-black"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, delay: 0.7 }}
+            animate={{ opacity: 0 }}
+            transition={{
+              duration: 1.3,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0,
+            }}
+            pointerEvents="none"
           />
 
-          {/* Four stepped panels - stacked horizontally */}
+          {/* Stage 2: Four separate columns lifting upward */}
           {[0, 1, 2, 3].map((index) => (
             <motion.div
               key={index}
-              className="fixed left-0 right-0 z-[10000] bg-black"
+              className="fixed top-0 bottom-0 z-[10000] bg-black"
               style={{
-                top: `${index * 25}%`,
-                height: "25%",
-                transformOrigin: "left",
+                left: `${index * 25}%`,
+                width: "25%",
+                willChange: "transform",
               }}
-              initial={{ scaleX: 1 }}
-              animate={{ scaleX: 0 }}
+              initial={{ translateY: 0 }}
+              animate={{ translateY: "-100vh" }}
               transition={{
-                duration: 0.5,
-                delay: index * 0.12,
-                ease: "easeInOut",
+                duration: 1.0,
+                delay: index * 0.08,
+                ease: [0.22, 1, 0.36, 1],
               }}
             />
           ))}

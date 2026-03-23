@@ -4,7 +4,7 @@
     {
       "name": "portfolio",
       "runtimeExecutable": "/Users/paulwhelan/.nvm/versions/node/v20.20.1/bin/node",
-      "runtimeArgs": ["/Users/paulwhelan/Code/co-pilot/node_modules/next/dist/bin/next", "dev"],
+      "runtimeArgs": ["/Users/paulwhelan/Code/portfolio-copilot/node_modules/next/dist/bin/next", "dev"],
       "port": 3000,
       "autoPort": true,
       "env": {

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import CanvasLayout from "@/components/ui/CanvasLayout";
 import TopNav from "@/components/ui/TopNav";
 import HeroSection from "@/components/ui/hero/HeroSection";
@@ -35,14 +36,16 @@ const headlines: Record<Audience, string> = {
 };
 
 export default function BaseCanvas() {
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<Audience>("Everyone");
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
   const [showBackground, setShowBackground] = React.useState(true);
   const [time, setTime] = React.useState("");
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2500);
+    // Start loading sequence on client-side only (after hydration)
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 2850);
     return () => clearTimeout(timer);
   }, []);
 
@@ -99,17 +102,27 @@ export default function BaseCanvas() {
           activeTab={activeTab}
           onTabChange={(audience) => setActiveTab(audience as Audience)}
           headline={headlines[activeTab]}
+          isInitialLoad={loading}
         />
-        <Dock />
+        <Dock isInitialLoad={loading} />
         <WindowRenderer />
-        <div className="absolute bottom-5 left-6 md:left-8 lg:left-10 z-30 flex flex-col gap-2 items-start">
+        <motion.div
+          className="absolute bottom-5 left-6 md:left-8 lg:left-10 z-30 flex flex-col gap-2 items-start"
+          initial={loading ? undefined : { opacity: 0, translateY: 12 }}
+          animate={{ opacity: 1, translateY: 0 }}
+          transition={
+            loading
+              ? { duration: 0 }
+              : { duration: 0.8, delay: 2.2, ease: [0.22, 1, 0.36, 1] }
+          }
+        >
           <BackgroundToggle
             enabled={showBackground}
             onToggle={handleToggleBackground}
             theme={theme}
           />
           <ThemeToggle theme={theme} onToggle={handleToggleTheme} />
-        </div>
+        </motion.div>
         <footer
           style={{
             position: "absolute",
