@@ -68,7 +68,7 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
       transition={
         isInitialLoad
           ? { duration: 0.28, delay: 0.18, ease: "easeOut" }
-          : { duration: 0.8, delay: 2.1, ease: [0.22, 1, 0.36, 1] }
+          : { duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }
       }
       className="absolute bottom-16 left-1/2 z-30 -translate-x-1/2"
     >

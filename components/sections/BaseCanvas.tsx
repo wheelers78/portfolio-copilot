@@ -113,7 +113,7 @@ export default function BaseCanvas() {
           transition={
             loading
               ? { duration: 0 }
-              : { duration: 0.8, delay: 2.2, ease: [0.22, 1, 0.36, 1] }
+              : { duration: 0.8, delay: 1.3, ease: [0.22, 1, 0.36, 1] }
           }
         >
           <BackgroundToggle
