@@ -15,7 +15,9 @@ export default function HeadlinePanel({ activeTab, headline, isInitialLoad = fal
   const shouldAnimate = !isInitialLoad && !hasAnimatedRef.current && activeTab === "Everyone";
 
   React.useEffect(() => {
+    console.log('useEffect running:', { shouldAnimate, animationTrigger, isInitialLoad, activeTab });
     if (shouldAnimate && !animationTrigger) {
+      console.log('Setting animationTrigger to true');
       hasAnimatedRef.current = true;
       setAnimationTrigger(true);
     }
@@ -28,14 +30,14 @@ export default function HeadlinePanel({ activeTab, headline, isInitialLoad = fal
           key={`${activeTab}-${animationTrigger}`}
           initial={
             shouldAnimate
-              ? { opacity: 0, filter: "blur(24px)", translateY: 40 }
+              ? { opacity: 0.4, filter: "blur(50px)", translateY: 40 }
               : { opacity: 0 }
           }
           animate={{ opacity: 1, filter: "blur(0px)", translateY: 0 }}
           exit={{ opacity: 0 }}
           transition={
             shouldAnimate
-              ? { duration: 1.5, delay: 0, ease: [0.22, 1, 0.36, 1] }
+              ? { duration: 2.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }
               : { duration: 0.15, ease: "easeOut" }
           }
           className="font-sans text-[42px] leading-[1.06] tracking-[-0.01em] text-[var(--text-primary)] md:text-[58px] lg:text-[72px]"
