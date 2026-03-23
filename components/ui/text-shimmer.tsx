@@ -1,5 +1,5 @@
 'use client';
-import React, { useMemo } from 'react';
+import React, { useMemo, type JSX } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -9,45 +9,44 @@ interface TextShimmerProps {
   className?: string;
   duration?: number;
   spread?: number;
-  variant?: 'light' | 'dark';
 }
 
 export function TextShimmer({
   children,
-  as: _Component = 'p',
+  as: Component = 'p',
   className,
   duration = 2,
   spread = 2,
-  variant = 'light',
 }: TextShimmerProps) {
-  const minOpacity = variant === 'dark' ? 0.7 : 0.4;
-  const maxOpacity = 1;
-  const glowColor = variant === 'dark' ? 'rgba(224, 224, 224, 0.8)' : 'rgba(0, 0, 0, 0.4)';
+  const MotionComponent = motion(Component as keyof JSX.IntrinsicElements);
+  const dynamicSpread = useMemo(() => {
+    return children.length * spread;
+  }, [children, spread]);
 
   return (
-    <motion.span
+    <MotionComponent
       className={cn(
-        'relative inline-block',
+        'relative inline-block bg-[length:250%_100%,auto] bg-clip-text',
+        'text-transparent [--base-color:#a1a1aa] [--base-gradient-color:#000]',
+        '[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--base-gradient-color),#0000_calc(50%+var(--spread)))] [background-repeat:no-repeat,padding-box]',
+        'dark:[--base-color:#71717a] dark:[--base-gradient-color:#ffffff] dark:[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--base-gradient-color),#0000_calc(50%+var(--spread)))]',
         className
       )}
-      style={{
-        color: variant === 'dark' ? '#ffffff' : '#a1a1aa',
-      }}
-      animate={{
-        textShadow: [
-          `0 0 10px ${glowColor}`,
-          `0 0 25px ${glowColor}`,
-          `0 0 10px ${glowColor}`,
-        ],
-        opacity: [minOpacity, maxOpacity, minOpacity],
-      }}
+      initial={{ backgroundPosition: '100% center' }}
+      animate={{ backgroundPosition: '0% center' }}
       transition={{
         repeat: Infinity,
         duration,
-        ease: 'easeInOut',
+        ease: 'linear',
       }}
+      style={
+        {
+          '--spread': `${dynamicSpread}px`,
+          backgroundImage: `var(--bg), linear-gradient(var(--base-color), var(--base-color))`,
+        } as React.CSSProperties
+      }
     >
       {children}
-    </motion.span>
+    </MotionComponent>
   );
 }
