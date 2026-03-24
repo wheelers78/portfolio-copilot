@@ -38,19 +38,19 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
 
   const dockItems = [
     {
-      type: "work",
-      label: "Work",
-      icon: <FolderIcon />,
-    },
-    {
       type: "about",
-      label: "About me",
+      label: "About",
       icon: <UserIcon />,
     },
     {
       type: "ask",
-      label: "Ask me",
+      label: "Ask",
       icon: <TerminalIcon />,
+    },
+    {
+      type: "work",
+      label: "Work",
+      icon: <FolderIcon />,
     },
   ];
 
