@@ -22,7 +22,7 @@ export default function CaseStudyNav({
   const activeSlug = hoveredSlug || selectedSlug;
   const activeIndex = projects.findIndex((p) => p.slug === activeSlug);
 
-  const itemHeight = 96; // Height of each item including gap (card ~84px + gap 12px)
+  const itemHeight = 104; // Height of each item including gap
   const activeYPosition = activeIndex * itemHeight;
 
   return (
@@ -31,7 +31,7 @@ export default function CaseStudyNav({
       <div className="flex-1 overflow-y-auto relative">
         {/* Animated background for active/hovered item */}
         <motion.div
-          className="absolute left-6 right-6 h-20 rounded-lg pointer-events-none z-0 border border-[var(--border)]"
+          className="absolute left-6 right-6 h-24 rounded-lg pointer-events-none z-0 border border-[var(--border)]"
           style={{
             background: "rgba(45, 91, 227, 0.15)",
           }}
