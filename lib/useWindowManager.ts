@@ -82,7 +82,13 @@ const getPositionForRole = (
   }
 
   if (role === "workspace") {
-    return clamp(WORK_POSITION.x, WORK_POSITION.y, size);
+    const vw = typeof window !== "undefined" ? window.innerWidth : 1440;
+    const vh = typeof window !== "undefined" ? window.innerHeight : 900;
+    return clamp(
+      Math.round((vw - size.width) / 2),
+      Math.round((vh - size.height) / 2),
+      size
+    );
   }
 
   if (type === "about") {
