@@ -40,7 +40,7 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
     {
       type: "work",
       label: "Work",
-      icon: <WorkIcon />,
+      icon: <FolderIcon />,
     },
     {
       type: "about",
@@ -51,11 +51,6 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
       type: "ask",
       label: "Ask me",
       icon: <TerminalIcon />,
-    },
-    {
-      type: "recent",
-      label: "Recent work",
-      icon: <FolderIcon />,
     },
   ];
 
