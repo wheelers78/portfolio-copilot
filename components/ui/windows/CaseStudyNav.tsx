@@ -43,15 +43,15 @@ export default function CaseStudyNav({
         <motion.div
           className="absolute left-6 right-6 h-24 rounded-lg pointer-events-none z-0 border border-[var(--border)]"
           style={{
-            background: "rgba(45, 91, 227, 0.1)",
+            background: "rgba(45, 91, 227, 0.15)",
           }}
           animate={{
             top: selectedYPosition + 24 - scrollY,
           }}
           transition={{
             type: "spring",
-            stiffness: 300,
-            damping: 30,
+            stiffness: 250,
+            damping: 25,
             mass: 1,
           }}
         />
