@@ -22,7 +22,7 @@ export default function CaseStudyNav({
   const activeSlug = hoveredSlug || selectedSlug;
   const activeIndex = projects.findIndex((p) => p.slug === activeSlug);
 
-  const itemHeight = 128; // Height of each item including gap
+  const itemHeight = 114; // Height of each item including gap
   const activeYPosition = activeIndex * itemHeight;
 
   return (
