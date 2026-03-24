@@ -18,11 +18,7 @@ export default function CaseStudyNavItem({
   return (
     <motion.button
       onClick={onSelect}
-      className={`w-full text-left p-4 rounded-lg transition-all duration-200 group cursor-pointer ${
-        isSelected
-          ? "bg-[var(--surface-muted)] border border-[var(--border)]"
-          : "border border-transparent hover:bg-[var(--surface-muted)] hover:border-[var(--border-subtle)]"
-      }`}
+      className="w-full text-left p-4 group cursor-pointer transition-colors duration-200"
       whileHover={{ y: -2 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
