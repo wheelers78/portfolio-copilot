@@ -22,7 +22,7 @@ export const projects: Project[] = [
     period: "2025",
     roleTitle: "WGSN",
     summary:
-      "WGSN clients need to plan ahead — understanding what's coming and how to respond. However, cultural insights were often broad, fragmented, and difficult to act on.",
+      "Anticipating global moments and turning insight into action",
     challenge:
       "Cultural event data was scattered across editorial, calendars, and trend reports. There was no unified way for brands to surface, filter, and plan around the events that mattered to them — by category, region, or audience.",
     role:
@@ -66,7 +66,7 @@ export const projects: Project[] = [
     period: "2025",
     roleTitle: "WGSN",
     summary:
-      "Pulse is WGSN’s natural language search tool, powered by generative AI. Unlike a standard feature release, Pulse represents a step change in how users interact with the platform: faster, more intuitive, and designed to deliver precise, actionable answers in seconds.",
+      "Natural language search for instant, actionable insight",
     challenge:
       "Cultural event data was scattered across editorial, calendars, and trend reports. There was no unified way for brands to surface, filter, and plan around the events that mattered to them — by category, region, or audience.",
     role:
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     period: "2024",
     roleTitle: "Design Lead",
     summary:
-      "Shorts makes it faster and easier for customers to find relevant content by delivering key insights from reports through personalised targeting. Reports are broken down into their core messages and presented in a simplified, engaging format that's easy to scan and digest.",
+      "Fast, digestible insights for quick decision-making",
     challenge:
       "Cultural event data was scattered across editorial, calendars, and trend reports. There was no unified way for brands to surface, filter, and plan around the events that mattered to them — by category, region, or audience.",
     role:
@@ -146,7 +146,7 @@ export const projects: Project[] = [
     period: "2024",
     roleTitle: "Design Lead",
     summary:
-      "Catwalks provides fashion designers and buyers with an unparalleled view of global runway trends. The platform's core value proposition is to transform raw catwalk data and insights into actionable intelligence.",
+      "A real-time view of global runway trends",
     challenge:
       "Cultural event data was scattered across editorial, calendars, and trend reports. There was no unified way for brands to surface, filter, and plan around the events that mattered to them — by category, region, or audience.",
     role:
@@ -188,7 +188,7 @@ export const projects: Project[] = [
     period: "2022",
     roleTitle: "Design Lead",
     summary:
-      "Sedna is reinventing communication for maritime and logistics - industries where clarity and speed directly impact operations. Instead of relying on traditional email, Sedna creates an intelligent workspace that brings messages, data, and decisions together.",
+      "Reinventing communication for high-stakes, real-time operations",
     challenge:
       "Cultural event data was scattered across editorial, calendars, and trend reports. There was no unified way for brands to surface, filter, and plan around the events that mattered to them — by category, region, or audience.",
     role:
@@ -230,7 +230,7 @@ export const projects: Project[] = [
     period: "2022",
     roleTitle: "Design Lead",
     summary:
-      "Harbor is the shared foundation SEDNAuts use to craft digital experiences. It sits at the heart of SEDNA’s design and development work, empowering designers and engineers to collaborate and build better products, faster..",
+      "Driving consistency and scale through a shared design system",
     challenge:
       "Cultural event data was scattered across editorial, calendars, and trend reports. There was no unified way for brands to surface, filter, and plan around the events that mattered to them — by category, region, or audience.",
     role:

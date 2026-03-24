@@ -26,12 +26,12 @@ export default function CaseStudyNavItem({
       onMouseLeave={() => onHoverChange?.(false)}
       className="w-full text-left p-4 group cursor-pointer transition-colors duration-200"
       whileHover={{ y: -2 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      transition={{ type: "spring", stiffness: 200, damping: 30 }}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 space-y-1.5">
           <p
-            className={`text-sm font-semibold leading-snug transition-colors ${
+            className={`text-lg font-medium leading-snug transition-colors ${
               isSelected
                 ? "text-[var(--text-primary)]"
                 : "text-[var(--text-primary)] group-hover:text-[var(--text-primary)]"
