@@ -8,16 +8,20 @@ interface CaseStudyNavItemProps {
   project: Project;
   isSelected: boolean;
   onSelect: () => void;
+  onHoverChange?: (isHovered: boolean) => void;
 }
 
 export default function CaseStudyNavItem({
   project,
   isSelected,
   onSelect,
+  onHoverChange,
 }: CaseStudyNavItemProps) {
   return (
     <motion.button
       onClick={onSelect}
+      onMouseEnter={() => onHoverChange?.(true)}
+      onMouseLeave={() => onHoverChange?.(false)}
       className="w-full text-left p-4 group cursor-pointer transition-colors duration-200"
       whileHover={{ y: -2 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}

@@ -22,7 +22,7 @@ export default function CaseStudyNav({
   const activeSlug = hoveredSlug || selectedSlug;
   const activeIndex = projects.findIndex((p) => p.slug === activeSlug);
 
-  const itemHeight = 104; // Height of each item including gap
+  const itemHeight = 128; // Height of each item including gap
   const activeYPosition = activeIndex * itemHeight;
 
   return (
@@ -48,17 +48,15 @@ export default function CaseStudyNav({
 
         <div className="space-y-3 p-6 relative z-10">
           {projects.map((project) => (
-            <div
+            <CaseStudyNavItem
               key={project.slug}
-              onMouseEnter={() => setHoveredSlug(project.slug)}
-              onMouseLeave={() => setHoveredSlug(null)}
-            >
-              <CaseStudyNavItem
-                project={project}
-                isSelected={project.slug === selectedSlug}
-                onSelect={() => onSelectProject(project)}
-              />
-            </div>
+              project={project}
+              isSelected={project.slug === selectedSlug}
+              onSelect={() => onSelectProject(project)}
+              onHoverChange={(isHovered) =>
+                setHoveredSlug(isHovered ? project.slug : null)
+              }
+            />
           ))}
         </div>
       </div>
