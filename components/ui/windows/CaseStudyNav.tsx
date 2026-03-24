@@ -33,7 +33,7 @@ export default function CaseStudyNav({
         <motion.div
           className="absolute left-6 right-6 h-24 rounded-lg pointer-events-none z-0 border border-[var(--border)]"
           style={{
-            background: "rgba(45, 91, 227, 0.15)",
+            background: "var(--surface-hover)",
           }}
           animate={{
             top: activeYPosition + 24,
