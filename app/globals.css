@@ -17,7 +17,7 @@
   --muted: #6b6b68;
   --subtle: #d4d4d0;
   --border: #e8e8e5;
-  --surface: #f4f4f2;
+  --surface: #ffffff;
   --accent: #2d5be3;
   --canvas-bg: #ffffff;
   --text-primary: #181818;
@@ -58,6 +58,7 @@
   --canvas-bg: #121212;
   --text-primary: #e9e9e7;
   --text-muted: #a8a8a4;
+  --surface: #1b1b1b;
   --surface-muted: #1f1f1f;
   --surface-hover: #252525;
   --border: #2e2e2e;
