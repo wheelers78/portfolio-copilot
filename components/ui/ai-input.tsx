@@ -133,7 +133,7 @@ const ColorOrb: React.FC<OrbProps> = ({
             var(--base) var(--dot),
             transparent var(--dot)
           );
-          background-size: calc(var(--dot) * 2) calc(var(--dot) * 2);
+          background-size: calc(var(--dot) * 0) calc(var(--dot) * 0);
           backdrop-filter: blur(calc(var(--blur) * 2)) contrast(calc(var(--contrast) * 2));
           mix-blend-mode: overlay;
         }

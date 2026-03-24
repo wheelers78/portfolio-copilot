@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { projects, type Project } from "@/data/projects";
 import CaseStudyNav from "./CaseStudyNav";
 import CaseStudyDetail from "./CaseStudyDetail";
@@ -16,6 +16,17 @@ export default function WorkWindow({ initialSlug }: WorkWindowProps) {
       : projects[0];
 
   const [selectedProject, setSelectedProject] = useState<Project>(initialProject);
+  const [isVisible, setIsVisible] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectProject = (project: Project) => {
+    setIsVisible(false);
+    setSelectedProject(project);
+    // Fade back in after project changes
+    requestAnimationFrame(() => {
+      setIsVisible(true);
+    });
+  };
 
   return (
     <div className="flex h-full bg-[var(--surface)]">
@@ -23,11 +34,18 @@ export default function WorkWindow({ initialSlug }: WorkWindowProps) {
       <CaseStudyNav
         projects={projects}
         selectedSlug={selectedProject.slug}
-        onSelectProject={(project) => setSelectedProject(project)}
+        onSelectProject={handleSelectProject}
       />
 
-      {/* Right content pane */}
-      <CaseStudyDetail project={selectedProject} />
+      {/* Right content pane - key forces remount with scroll at 0 */}
+      <div
+        key={selectedProject.slug}
+        ref={scrollContainerRef}
+        style={{ opacity: isVisible ? 1 : 0, transition: 'opacity 0.2s' }}
+        className="flex-1 overflow-y-auto bg-[var(--surface)]"
+      >
+        <CaseStudyDetail project={selectedProject} />
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { type Project } from "@/data/projects";
 import CaseStudyMeta from "./CaseStudyMeta";
 import CaseStudySection from "./CaseStudySection";
+import { FadeInUp } from "@/components/ui/FadeInUp";
 
 interface CaseStudyDetailProps {
   project: Project;
@@ -16,7 +17,7 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
   const remainingImages = project.images?.slice(1) || [];
 
   return (
-    <div className="flex-1 overflow-y-auto bg-[var(--surface)]">
+    <div className="w-full">
       <AnimatePresence mode="wait">
         <motion.div
           key={project.slug}
@@ -28,13 +29,15 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
         >
           {/* Cover image - flush at top, no sticky header */}
           {coverImage && (
-            <div className="w-full overflow-hidden">
-              <img
-                src={coverImage}
-                alt={`${project.title} cover`}
-                className="w-full h-auto block"
-              />
-            </div>
+            <FadeInUp threshold={0.3}>
+              <div className="w-full overflow-hidden">
+                <img
+                  src={coverImage}
+                  alt={`${project.title} cover`}
+                  className="w-full h-auto block"
+                />
+              </div>
+            </FadeInUp>
           )}
 
           {/* Main content */}
@@ -98,13 +101,15 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
             {remainingImages.length > 0 && (
               <div className="space-y-4 pt-4">
                 {remainingImages.map((src, i) => (
-                  <div key={i} className="overflow-hidden">
-                    <img
-                      src={src}
-                      alt={`${project.title} visual ${i + 2}`}
-                      className="w-full h-auto block"
-                    />
-                  </div>
+                  <FadeInUp key={i} delay={i * 0.08}>
+                    <div className="overflow-hidden">
+                      <img
+                        src={src}
+                        alt={`${project.title} visual ${i + 2}`}
+                        className="w-full h-auto block"
+                      />
+                    </div>
+                  </FadeInUp>
                 ))}
               </div>
             )}
