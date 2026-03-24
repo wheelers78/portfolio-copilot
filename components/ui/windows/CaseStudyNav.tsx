@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { type Project } from "@/data/projects";
 import CaseStudyNavItem from "./CaseStudyNavItem";
@@ -16,37 +16,27 @@ export default function CaseStudyNav({
   selectedSlug,
   onSelectProject,
 }: CaseStudyNavProps) {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollY, setScrollY] = useState(0);
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
+  // Use hovered item if hovering, otherwise use selected item
+  const activeSlug = hoveredSlug || selectedSlug;
+  const activeIndex = projects.findIndex((p) => p.slug === activeSlug);
 
-    const handleScroll = () => {
-      setScrollY(container.scrollTop);
-    };
-
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const selectedIndex = projects.findIndex((p) => p.slug === selectedSlug);
-  const itemHeight = 104; // Height of each CaseStudyNavItem (approximate: h + gap)
-  const selectedYPosition = selectedIndex * itemHeight;
+  const itemHeight = 104; // Height of each CaseStudyNavItem (approximate)
+  const activeYPosition = activeIndex * itemHeight;
 
   return (
     <nav className="w-80 border-r border-[var(--border-subtle)] bg-[var(--surface)] flex flex-col overflow-hidden">
       {/* Project list */}
-      <div className="flex-1 overflow-y-auto relative" ref={scrollContainerRef}>
-        {/* Animated background for active item */}
+      <div className="flex-1 overflow-y-auto relative">
+        {/* Animated background for active/hovered item */}
         <motion.div
           className="absolute left-6 right-6 h-24 rounded-lg pointer-events-none z-0 border border-[var(--border)]"
           style={{
             background: "rgba(45, 91, 227, 0.15)",
           }}
           animate={{
-            top: selectedYPosition + 24 - scrollY,
+            top: activeYPosition + 24,
           }}
           transition={{
             type: "spring",
@@ -58,12 +48,17 @@ export default function CaseStudyNav({
 
         <div className="space-y-3 p-6 relative z-10">
           {projects.map((project) => (
-            <CaseStudyNavItem
+            <div
               key={project.slug}
-              project={project}
-              isSelected={project.slug === selectedSlug}
-              onSelect={() => onSelectProject(project)}
-            />
+              onMouseEnter={() => setHoveredSlug(project.slug)}
+              onMouseLeave={() => setHoveredSlug(null)}
+            >
+              <CaseStudyNavItem
+                project={project}
+                isSelected={project.slug === selectedSlug}
+                onSelect={() => onSelectProject(project)}
+              />
+            </div>
           ))}
         </div>
       </div>
