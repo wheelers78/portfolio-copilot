@@ -59,8 +59,8 @@ export function LoadingScreen({ show }: LoadingScreenProps) {
           <div className="fixed inset-0 z-[10000] flex items-center justify-center" style={{ opacity: 1, pointerEvents: 'none' }}>
             <TextShimmer
               duration={1.2}
-              className="text-sm font-light [--base-color:#ffffff] [--base-gradient-color:#e0e0e0]"
-              style={{ fontSize: '14px', letterSpacing: '0em' }}
+              className="text-sm font-light [--base-color:#ffffff] [--base-gradient-color:#ffffff]"
+              style={{ fontSize: '13px', letterSpacing: '0em' }}
             >
               P-W Loading
             </TextShimmer>

@@ -23,6 +23,12 @@ const FolderIcon = () => (
   </svg>
 );
 
+const WorkIcon = () => (
+  <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 3H10.5V2C10.5 1.73478 10.3946 1.48051 10.207 1.29297C10.0195 1.10543 9.76522 1 9.5 1H6.5C6.23478 1 5.98051 1.10543 5.79297 1.29297C5.60543 1.48051 5.5 1.73478 5.5 2V3H2C1.73478 3 1.48051 3.10543 1.29297 3.29297C1.10543 3.48051 1 3.73478 1 4V14C1 14.2652 1.10543 14.5195 1.29297 14.707C1.48051 14.8946 1.73478 15 2 15H14C14.2652 15 14.5195 14.8946 14.707 14.707C14.8946 14.5195 15 14.2652 15 14V4C15 3.73478 14.8946 3.48051 14.707 3.29297C14.5195 3.10543 14.2652 3 14 3ZM6.5 2H9.5V3H6.5V2ZM2 4H14V14H2V4Z" fill="currentColor" />
+  </svg>
+);
+
 interface DockProps {
   isInitialLoad?: boolean;
 }
@@ -31,6 +37,11 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
   const { openWindow, closeWindow, windows } = useWindowManager();
 
   const dockItems = [
+    {
+      type: "work",
+      label: "Work",
+      icon: <WorkIcon />,
+    },
     {
       type: "about",
       label: "About me",
@@ -68,7 +79,7 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
       transition={
         isInitialLoad
           ? { duration: 0.28, delay: 0.18, ease: "easeOut" }
-          : { duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }
+          : { duration: 0.8, delay: 1.8, ease: [0.22, 1, 0.36, 1] }
       }
       className="absolute bottom-16 left-1/2 z-30 -translate-x-1/2"
     >

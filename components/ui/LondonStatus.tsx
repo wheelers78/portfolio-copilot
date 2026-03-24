@@ -25,11 +25,11 @@ const getGreeting = (hourInLondon: number) => {
   if (hourInLondon >= 5 && hourInLondon < 12) return "Good Morning";
   if (hourInLondon >= 12 && hourInLondon < 17) return "Good Afternoon";
   if (hourInLondon >= 17 && hourInLondon < 22) return "Good Evening";
-  return "Good night";
+  return "Good Night";
 };
 
 export default function LondonStatus({
-  location = "London",
+  location = "LDN",
   temperatureC = 18,
   time: providedTime,
 }: LondonStatusProps) {
@@ -55,7 +55,6 @@ export default function LondonStatus({
     <div className="flex items-center gap-3.5 text-right">
       <span>{greeting}</span>
       <span>{location}</span>
-      <span>{temperatureC}°C</span>
       <span>{displayTime}</span>
     </div>
   );

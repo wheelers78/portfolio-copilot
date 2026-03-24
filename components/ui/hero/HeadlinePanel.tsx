@@ -28,14 +28,14 @@ export default function HeadlinePanel({ activeTab, headline, isInitialLoad = fal
           key={shouldTriggerAnimation ? "animated" : "initial"}
           initial={
             shouldTriggerAnimation
-              ? { opacity: 0, filter: "blur(30px)", translateY: 30 }
+              ? { opacity: 0, filter: "blur(36px)", translateY: 30 }
               : { opacity: 0 }
           }
           animate={{ opacity: 1, filter: "blur(0px)", translateY: 0 }}
           exit={{ opacity: 0 }}
           transition={
             shouldTriggerAnimation
-              ? { duration: 2, ease: "easeOut" }
+              ? { duration: 2.4, ease: "easeOut" }
               : { duration: 0.15, ease: "easeOut" }
           }
           className="font-sans text-[42px] leading-[1.06] tracking-[-0.01em] text-[var(--text-primary)] md:text-[58px] lg:text-[72px]"

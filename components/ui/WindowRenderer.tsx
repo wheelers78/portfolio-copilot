@@ -8,6 +8,7 @@ import AboutWindow from "./windows/AboutWindow";
 import AskWindow from "./windows/AskWindow";
 import RecentWindow from "./windows/RecentWindow";
 import ProjectWindow from "./windows/ProjectWindow";
+import WorkWindow from "./windows/WorkWindow";
 import { WindowState } from "@/lib/useWindowManager";
 
 export default function WindowRenderer() {
@@ -25,6 +26,8 @@ export default function WindowRenderer() {
         return <RecentWindow />;
       case "project":
         return <ProjectWindow project={window.data} />;
+      case "work":
+        return <WorkWindow initialSlug={window.data?.slug} />;
       default:
         return null;
     }
@@ -48,7 +51,7 @@ export default function WindowRenderer() {
           contentClassName={
             window.type === "recent"
               ? "px-5 py-5"
-              : window.type === "ask"
+              : window.type === "ask" || window.type === "work"
               ? "p-0"
               : "px-12 py-12"
           }

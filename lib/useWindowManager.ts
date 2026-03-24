@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
-export type WindowRole = "launcher" | "case-study";
+export type WindowRole = "launcher" | "case-study" | "workspace";
 
 export interface WindowState {
   id: string;
-  type: "about" | "ask" | "project" | "recent";
+  type: "about" | "ask" | "project" | "recent" | "work";
   role: WindowRole;
   title: string;
   data?: any;
@@ -38,6 +38,11 @@ const CASE_STUDY_BASE_Y = 80;
 const CASE_STUDY_SIZE = { width: PRIMARY_WIDTH, height: 680 };
 const CASCADE_OFFSET = { x: 28, y: 24 };
 
+// Work window (unified case study browser)
+const WORK_WIDTH = 1000;
+const WORK_HEIGHT = 700;
+const WORK_POSITION = { x: 60, y: 100 };
+
 const clamp = (
   x: number,
   y: number,
@@ -53,11 +58,14 @@ const clamp = (
 
 const getSizeForType = (type: WindowState["type"], role: WindowRole) => {
   if (role === "launcher") return LAUNCHER_SIZE;
+  if (role === "workspace") return { width: WORK_WIDTH, height: WORK_HEIGHT };
   switch (type) {
     case "about":
       return { width: PRIMARY_WIDTH, height: 580 };
     case "ask":
       return { width: PRIMARY_WIDTH, height: 520 };
+    case "work":
+      return { width: WORK_WIDTH, height: WORK_HEIGHT };
     default:
       return CASE_STUDY_SIZE;
   }
@@ -71,6 +79,10 @@ const getPositionForRole = (
 ) => {
   if (role === "launcher") {
     return LAUNCHER_POSITION;
+  }
+
+  if (role === "workspace") {
+    return clamp(WORK_POSITION.x, WORK_POSITION.y, size);
   }
 
   if (type === "about") {
@@ -109,6 +121,30 @@ export const useWindowManager = create<WindowManagerStore>((set) => ({
     set((state) => {
       const nextZ =
         state.windows.reduce((maxZ, w) => Math.max(maxZ, w.zIndex), 40) + 1;
+
+      // Work window is a singleton workspace
+      if (type === "work") {
+        const existing = state.windows.find((w) => w.type === "work");
+        if (existing) {
+          return {
+            windows: state.windows.map((w) =>
+              w.id === existing.id ? { ...w, zIndex: nextZ } : w
+            ),
+          };
+        }
+        const size = getSizeForType("work", "workspace");
+        const newWindow: WindowState = {
+          id: generateId(),
+          type: "work",
+          role: "workspace",
+          title,
+          data,
+          position: getPositionForRole("workspace", "work", 0, size),
+          size,
+          zIndex: nextZ,
+        };
+        return { windows: [...state.windows, newWindow] };
+      }
 
       // Launcher windows (type "recent") are singletons — bring to front if already open
       if (type === "recent") {

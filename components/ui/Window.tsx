@@ -176,13 +176,13 @@ export default function Window({
             cursor: isDragging ? "grabbing" : "grab",
           }}
         >
-          <div className="grid grid-cols-2 gap-[3px] opacity-100">
+          <div className="grid grid-cols-2 gap-[2px] opacity-70">
             {[...Array(6)].map((_, i) => (
-              <span key={i} className="block h-[3px] w-[3px] rounded-full bg-[var(--window-header-text)]" />
+              <span key={i} className="block h-[2px] w-[2px] bg-[var(--window-header-text)]" />
             ))}
           </div>
 
-          <h2 className="flex-1 text-center font-mono text-[11px] font-medium text-[var(--window-header-text)]">
+          <h2 className="flex-1 text-center font-mono text-[11px] font-regular text-[var(--window-header-text)]">
             {title}
           </h2>
 

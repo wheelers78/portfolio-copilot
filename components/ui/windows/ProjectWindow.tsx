@@ -8,7 +8,7 @@ import { projects, type Project } from "@/data/projects";
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="block text-[11px] font-medium text-[var(--text-primary)]">
+    <span className="block text-[11px] font-medium text-[var(--text-muted)] uppercase">
       {children}
     </span>
   );
@@ -23,15 +23,15 @@ function MetaGrid({ role, responsibilities, period }: { role: string; responsibi
     <div className="grid gap-x-3 gap-y-0 pt-2" style={{ gridTemplateColumns: "1fr 2fr auto" }}>
       <div className="space-y-1.5">
         <SectionLabel>Role</SectionLabel>
-        <p className="text-[12px] leading-snug text-[var(--text-muted)]">{role}</p>
+        <p className="text-[12px] leading-snug text-[var(--text-primary)]">{role}</p>
       </div>
       <div className="space-y-1.5">
         <SectionLabel>Responsibilities</SectionLabel>
-        <p className="text-[12px] leading-snug text-[var(--text-muted)]">{responsibilities}</p>
+        <p className="text-[12px] leading-snug text-[var(--text-primary)]">{responsibilities}</p>
       </div>
       <div className="space-y-1.5">
         <SectionLabel>Date</SectionLabel>
-        <p className="text-[12px] leading-snug text-[var(--text-muted)]">{period}</p>
+        <p className="text-[12px] leading-snug text-[var(--text-primary)]">{period}</p>
       </div>
     </div>
   );

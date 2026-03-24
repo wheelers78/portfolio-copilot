@@ -20,7 +20,7 @@ export const projects: Project[] = [
     slug: "events_culture",
     title: "Events + Culture",
     period: "2025",
-    roleTitle: "Design Lead",
+    roleTitle: "WGSN",
     summary:
       "WGSN clients need to plan ahead — understanding what's coming and how to respond. However, cultural insights were often broad, fragmented, and difficult to act on.",
     challenge:
@@ -64,7 +64,7 @@ export const projects: Project[] = [
     slug: "pulse_ai",
     title: "Pulse AI",
     period: "2025",
-    roleTitle: "Design Lead",
+    roleTitle: "WGSN",
     summary:
       "Pulse is WGSN’s natural language search tool, powered by generative AI. Unlike a standard feature release, Pulse represents a step change in how users interact with the platform: faster, more intuitive, and designed to deliver precise, actionable answers in seconds.",
     challenge:
