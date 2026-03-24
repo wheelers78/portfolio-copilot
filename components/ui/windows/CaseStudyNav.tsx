@@ -33,7 +33,7 @@ export default function CaseStudyNav({
         <motion.div
           className="absolute left-6 right-6 h-24 rounded-lg pointer-events-none z-0 border border-[var(--border)]"
           style={{
-            background: "var(--surface-hover)",
+            background: "var(--surface-muted)",
           }}
           animate={{
             top: activeYPosition + 24,
@@ -52,6 +52,7 @@ export default function CaseStudyNav({
               key={project.slug}
               project={project}
               isSelected={project.slug === selectedSlug}
+              isHovered={hoveredSlug === project.slug}
               onSelect={() => onSelectProject(project)}
               onHoverChange={(isHovered) =>
                 setHoveredSlug(isHovered ? project.slug : null)

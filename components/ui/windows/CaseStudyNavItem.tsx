@@ -7,6 +7,7 @@ import { type Project } from "@/data/projects";
 interface CaseStudyNavItemProps {
   project: Project;
   isSelected: boolean;
+  isHovered?: boolean;
   onSelect: () => void;
   onHoverChange?: (isHovered: boolean) => void;
 }
@@ -14,6 +15,7 @@ interface CaseStudyNavItemProps {
 export default function CaseStudyNavItem({
   project,
   isSelected,
+  isHovered,
   onSelect,
   onHoverChange,
 }: CaseStudyNavItemProps) {
@@ -41,7 +43,9 @@ export default function CaseStudyNavItem({
             {project.summary}
           </p>
         </div>
-        <div className="flex-shrink-0 pt-0.5 text-[var(--text-muted)] group-hover:translate-x-0.5 transition-transform">
+        <div className={`flex-shrink-0 pt-0.5 text-[var(--text-muted)] transition-all ${
+          isSelected || isHovered ? "opacity-100 group-hover:translate-x-0.5" : "opacity-0"
+        }`}>
           →
         </div>
       </div>
