@@ -16,20 +16,10 @@ export default function CaseStudyNav({
   onSelectProject,
 }: CaseStudyNavProps) {
   return (
-    <nav className="w-56 border-r border-[var(--border-subtle)] bg-[var(--surface)] flex flex-col overflow-hidden">
-      {/* Header */}
-      <div className="px-5 py-5 border-b border-[var(--border-subtle)]">
-        <h2 className="text-[13px] font-medium uppercase tracking-[0.08em] text-[var(--text-primary)]">
-          Work
-        </h2>
-        <p className="text-[11px] text-[var(--text-muted)] mt-1.5">
-          {projects.length} projects
-        </p>
-      </div>
-
+    <nav className="w-80 border-r border-[var(--border-subtle)] bg-[var(--surface)] flex flex-col overflow-hidden">
       {/* Project list */}
       <div className="flex-1 overflow-y-auto">
-        <div className="space-y-0.5 p-3">
+        <div className="space-y-3 p-6">
           {projects.map((project) => (
             <CaseStudyNavItem
               key={project.slug}

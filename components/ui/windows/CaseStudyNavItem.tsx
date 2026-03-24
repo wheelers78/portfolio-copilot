@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import { type Project } from "@/data/projects";
 
 interface CaseStudyNavItemProps {
@@ -15,26 +16,35 @@ export default function CaseStudyNavItem({
   onSelect,
 }: CaseStudyNavItemProps) {
   return (
-    <button
+    <motion.button
       onClick={onSelect}
-      className={`w-full text-left px-3 py-2.5 rounded-md transition-all duration-150 group ${
+      className={`w-full text-left p-4 rounded-lg transition-all duration-200 group cursor-pointer ${
         isSelected
           ? "bg-[var(--surface-muted)] border border-[var(--border)]"
-          : "border border-transparent hover:bg-[var(--surface-hover)]"
+          : "border border-transparent hover:bg-[var(--surface-muted)] hover:border-[var(--border-subtle)]"
       }`}
+      whileHover={{ y: -2 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="flex flex-col gap-1">
-        <p
-          className={`text-[12px] font-medium leading-snug transition-colors ${
-            isSelected ? "text-[var(--text-primary)]" : "text-[var(--text-muted)]"
-          }`}
-        >
-          {project.title}
-        </p>
-        <p className="text-[10px] text-[var(--text-muted)] opacity-60">
-          {project.roleTitle} · {project.period}
-        </p>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 space-y-1.5">
+          <p
+            className={`text-sm font-semibold leading-snug transition-colors ${
+              isSelected
+                ? "text-[var(--text-primary)]"
+                : "text-[var(--text-primary)] group-hover:text-[var(--text-primary)]"
+            }`}
+          >
+            {project.title}
+          </p>
+          <p className="text-xs leading-relaxed text-[var(--text-muted)] line-clamp-3">
+            {project.summary}
+          </p>
+        </div>
+        <div className="flex-shrink-0 pt-0.5 text-[var(--text-muted)] group-hover:translate-x-0.5 transition-transform">
+          →
+        </div>
       </div>
-    </button>
+    </motion.button>
   );
 }
