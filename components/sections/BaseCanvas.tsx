@@ -23,16 +23,16 @@ const audiences = [
 type Audience = (typeof audiences)[number];
 
 const headlines: Record<Audience, string> = {
-  Everyone: "Hi there, I'm Paul, a designer working across systems, strategy, and craft.",
-  Recruiters: "I lead product design teams to turn complexity into measurable outcomes and durable product quality.",
+  Everyone: "Hello there — I’m Paul. A designer who likes making complex things feel simple.",
+  Recruiters: "I work across systems, AI, and product — and I’ve spent the last 15+ years turning messy ideas into things that actually ship.",
   "Design Directors":
-    "I build coherent design systems and operating models that help teams ship with consistency and confidence.",
+    "I care about how things really work. Not just the interface, but the logic, the structure, the system behind it.",
   "Product Designers":
-    "I mentor designers and shape product direction through strong craft, clear thinking, and practical systems.",
+    "From process to pixels, I’ll work with you to shape, refine, and build something we’re proud of.",
   "Product Managers":
-    "I partner closely with product leaders to translate ambiguity into aligned priorities, useful flows, and momentum.",
+    "I’ll work closely with you — design, product, engineering — to shape it, test it, and make it real.",
   Engineers:
-    "I collaborate deeply with engineering to make product decisions concrete, scalable, and reliable in execution.",
+    "I’m pretty technical too. Not an engineer — but I can hold my own, and I like getting into the build.",
 };
 
 export default function BaseCanvas() {
@@ -139,12 +139,12 @@ export default function BaseCanvas() {
             style={{
               fontSize: "12px",
               color: "var(--text-muted)",
-              fontFamily: "var(--font-sans)",
+              fontFamily: "var(--font-mono)",
               letterSpacing: "0.01em",
               opacity: 0.6,
             }}
           >
-            Personal experiment built with Claude, Cursor & Figma.
+            Experiment built with Claude, Cursor & Figma.
           </span>
         </footer>
       </CanvasLayout>

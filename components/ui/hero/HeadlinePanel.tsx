@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { SplitTextHeading } from "../SplitTextHeading";
 
 interface HeadlinePanelProps {
   activeTab: string;
@@ -24,24 +25,15 @@ export default function HeadlinePanel({ activeTab, headline, isInitialLoad = fal
   return (
     <div className="mt-8 w-full h-[200px] md:h-[240px] lg:h-[280px] flex items-start">
       <AnimatePresence mode="wait" initial={false}>
-        <motion.h1
-          key={shouldTriggerAnimation ? "animated" : "initial"}
-          initial={
-            shouldTriggerAnimation
-              ? { opacity: 0, filter: "blur(36px)", translateY: 30 }
-              : { opacity: 0 }
-          }
-          animate={{ opacity: 1, filter: "blur(0px)", translateY: 0 }}
-          exit={{ opacity: 0 }}
-          transition={
-            shouldTriggerAnimation
-              ? { duration: 2.4, ease: "easeOut" }
-              : { duration: 0.15, ease: "easeOut" }
-          }
-          className="font-sans text-[42px] leading-[1.06] tracking-[-0.01em] text-[var(--text-primary)] md:text-[58px] lg:text-[72px]"
-        >
-          {headline}
-        </motion.h1>
+        <SplitTextHeading
+          key={activeTab}
+          text={headline}
+          trigger={shouldTriggerAnimation}
+          staggerDelay={0.1}
+          wordDelay={0.06}
+          duration={0.5}
+          className="font-sans text-[42px] font-medium leading-[1.08] tracking-loose text-[var(--text-primary)] md:text-[46px] lg:text-[62px]"
+        />
       </AnimatePresence>
     </div>
   );

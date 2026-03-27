@@ -41,25 +41,25 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
           )}
 
           {/* Main content */}
-          <div className="px-12 py-8 space-y-8">
+          <div className="px-12 py-8 space-y-3">
             {/* Title */}
             <div className="space-y-2">
-              <h1 className="text-2xl font-semibold text-[var(--text-primary)]">
+              <h1 className="text-3xl tracking-loose font-medium text-[var(--text-primary)]">
                 {project.title}
               </h1>
             </div>
 
             {/* Summary */}
-            {project.summary && (
-              <p className="text-sm leading-relaxed text-[var(--text-primary)] max-w-3xl">
-                {project.summary}
+            {(project.detail || project.summary) && (
+              <p className="text-lg leading-relaxed text-[var(--text-muted)] max-w-3xl">
+                {project.detail ?? project.summary}
               </p>
             )}
 
             {/* Company & Role - two column layout */}
             <div className="grid grid-cols-2 gap-8 py-4">
               <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                <p className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
                   Company
                 </p>
                 <p className="text-sm text-[var(--text-primary)]">
@@ -67,7 +67,7 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
                 </p>
               </div>
               <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                <p className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
                   Role
                 </p>
                 <p className="text-sm text-[var(--text-primary)]">
@@ -85,17 +85,11 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
               <CaseStudySection
                 label="Actions"
                 items={project.actions}
-                isBulletList
+                // isBulletList
               />
             )}
 
-            {project.outcomes && project.outcomes.length > 0 && (
-              <CaseStudySection
-                label="Outcomes"
-                items={project.outcomes}
-                isBulletList
-              />
-            )}
+            
 
             {/* Remaining images */}
             {remainingImages.length > 0 && (
@@ -112,6 +106,14 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
                   </FadeInUp>
                 ))}
               </div>
+            )}
+
+            {project.outcomes && project.outcomes.length > 0 && (
+              <CaseStudySection
+                label="Outcomes"
+                items={project.outcomes}
+                // isBulletList
+              />
             )}
 
             {/* Bottom padding */}

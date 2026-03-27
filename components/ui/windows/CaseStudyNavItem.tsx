@@ -31,7 +31,7 @@ export default function CaseStudyNavItem({
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 space-y-1.5">
           <p
-            className={`text-lg font-medium leading-snug transition-colors ${
+            className={`text-lg font-medium leading-snug transition-colors tracking-relaxed ${
               isSelected
                 ? "text-[var(--text-primary)]"
                 : "text-[var(--text-primary)] group-hover:text-[var(--text-primary)]"

@@ -11,7 +11,7 @@ interface CaseStudySectionProps {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="block text-[11px] font-medium text-[var(--text-muted)] uppercase">
+    <span className="block text-[13px] font-medium text-[var(--text-muted)] uppercase">
       {children}
     </span>
   );
@@ -43,7 +43,7 @@ export default function CaseStudySection({
     <div className="space-y-3">
       <SectionLabel>{label}</SectionLabel>
       {content && (
-        <p className="text-[13px] leading-relaxed text-[var(--text-primary)]">
+        <p className="text-[16px] leading-relaxed text-[var(--text-primary)]">
           {content}
         </p>
       )}

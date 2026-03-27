@@ -59,8 +59,7 @@ export function LoadingScreen({ show }: LoadingScreenProps) {
           <div className="fixed inset-0 z-[10000] flex items-center justify-center" style={{ opacity: 1, pointerEvents: 'none' }}>
             <TextShimmer
               duration={1.2}
-              className="text-sm font-light [--base-color:#ffffff] [--base-gradient-color:#ffffff]"
-              style={{ fontSize: '13px', letterSpacing: '0em' }}
+              className="text-xs font-light [--base-color:#ffffff] [--base-gradient-color:#ffffff] tracking-normal"
             >
               P-W Loading
             </TextShimmer>
@@ -80,7 +79,7 @@ export function LoadingScreen({ show }: LoadingScreenProps) {
               ease: [0.22, 1, 0.36, 1],
               delay: 0,
             }}
-            pointerEvents="none"
+            style={{ pointerEvents: "none" }}
           />
 
           {/* Stage 2: Four separate columns lifting upward */}

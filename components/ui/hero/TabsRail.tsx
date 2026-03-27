@@ -75,7 +75,7 @@ export default function TabsRail({ audiences, activeTab, onTabChange, isInitialL
                   onMouseEnter={() => handleMouseEnter(audience)}
                   onMouseLeave={handleMouseLeave}
                   aria-current={isActive ? "true" : undefined}
-                  className={`px-0 py-0 text-[16px] leading-none tracking-[-0.01em] font-regular transition-colors duration-150 cursor-pointer ${
+                  className={`px-0 py-0 text-[16px] leading-none tracking-[-0.01em] font-normal transition-colors duration-150 cursor-pointer ${
                     isActive
                       ? "text-[var(--text-primary)]"
                       : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"

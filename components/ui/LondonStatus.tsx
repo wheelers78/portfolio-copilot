@@ -52,7 +52,7 @@ export default function LondonStatus({
   const displayTime = providedTime ?? time;
 
   return (
-    <div className="flex items-center gap-3.5 text-right">
+    <div className="font-mono flex items-center gap-3.5 text-right">
       <span>{greeting}</span>
       <span>{location}</span>
       <span>{displayTime}</span>

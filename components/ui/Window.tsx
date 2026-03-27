@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { ScrollContainerProvider } from "@/hooks/ScrollContainerContext";
 
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 200;
@@ -34,7 +35,7 @@ export default function Window({
   defaultSize,
   zIndex,
   isActive,
-  contentClassName = "px-12 py-12",
+  contentClassName = "px-12 py-1",
   showScrollFade = true,
 }: WindowProps) {
   const [position, setPosition] = useState(defaultPosition);
@@ -45,6 +46,7 @@ export default function Window({
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const resizeStartRef = useRef({ mouseX: 0, mouseY: 0, width: 0, height: 0 });
   const headerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // ── Drag ──────────────────────────────────────────────────────────────────
 
@@ -182,7 +184,7 @@ export default function Window({
             ))}
           </div>
 
-          <h2 className="flex-1 text-center font-mono text-[11px] font-regular text-[var(--window-header-text)]">
+          <h2 className="flex-1 text-center font-mono text-[11px] font-normal text-[var(--window-header-text)]">
             {title}
           </h2>
 
@@ -200,9 +202,14 @@ export default function Window({
 
         {/* Scrollable content — flex-1 fills remaining height */}
         <div className="relative flex-1 min-h-0">
-          <div className={`h-full overflow-y-auto overscroll-contain ${contentClassName} text-[13px] leading-relaxed text-[var(--text-primary)]`}>
-            {children}
-          </div>
+          <ScrollContainerProvider scrollContainerRef={scrollContainerRef}>
+            <div
+              ref={scrollContainerRef}
+              className={`h-full overflow-y-auto overscroll-contain ${contentClassName} text-[13px] leading-relaxed text-[var(--text-primary)]`}
+            >
+              {children}
+            </div>
+          </ScrollContainerProvider>
           {showScrollFade && (
             <div
               className="pointer-events-none absolute bottom-0 left-0 right-0 h-16"

@@ -25,9 +25,9 @@ const ColorOrb: React.FC<OrbProps> = ({
 }) => {
   const fallbackTones = {
     base: "oklch(95% 0.02 264.695)",
-    accent1: "oklch(75% 0.15 350)",
-    accent2: "oklch(80% 0.12 200)",
-    accent3: "oklch(78% 0.14 280)",
+    accent1: "oklch(68% 0.15 240)", // blue
+    accent2: "oklch(66% 0.15 280)", // violet
+    accent3: "oklch(100% 0.16 330)", // magenta
   }
 
   const palette = { ...fallbackTones, ...tones }

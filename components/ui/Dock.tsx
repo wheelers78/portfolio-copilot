@@ -35,7 +35,7 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
     {
       type: "about",
       label: "About",
-      icon: <UserIcon />,
+      /*icon: <UserIcon />,*/
     },
     {
       type: "ask",
@@ -45,7 +45,7 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
     {
       type: "work",
       label: "Work",
-      icon: <FolderIcon />,
+      /*icon: <FolderIcon />,*/
     },
   ];
 

@@ -30,7 +30,7 @@ export default function HeroBlock({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.24, ease: "easeOut" }}
-              className="font-sans text-[42px] leading-[1.05] tracking-[-0.01em] text-[var(--text-primary)] md:text-[58px] lg:text-[72px]"
+              className="font-sans font-bold text-[42px] leading-[1.05] tracking-[-0.00em] text-[var(--text-primary)] md:text-[58px] lg:text-[72px]"
             >
               {headline}
             </motion.h1>

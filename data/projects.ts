@@ -4,6 +4,7 @@ export interface Project {
   period: string;
   roleTitle: string;
   summary: string;
+  detail?: string;
   challenge: string;
   role: string;
   actions: string[];

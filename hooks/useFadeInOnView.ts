@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useScrollContainer } from './ScrollContainerContext';
 
 interface UseFadeInOnViewOptions {
   threshold?: number;
@@ -8,6 +9,7 @@ interface UseFadeInOnViewOptions {
 
 /**
  * Hook that triggers a callback when an element enters the viewport
+ * Works with both window viewport and custom scroll containers
  * Respects prefers-reduced-motion for accessibility
  */
 export function useFadeInOnView(options: UseFadeInOnViewOptions = {}) {
@@ -19,6 +21,7 @@ export function useFadeInOnView(options: UseFadeInOnViewOptions = {}) {
 
   const ref = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
+  const scrollContainerRef = useScrollContainer();
 
   // Check if user prefers reduced motion
   const prefersReducedMotion =
@@ -42,6 +45,7 @@ export function useFadeInOnView(options: UseFadeInOnViewOptions = {}) {
         }
       },
       {
+        root: scrollContainerRef?.current || null,
         threshold,
         rootMargin,
       }
@@ -56,7 +60,7 @@ export function useFadeInOnView(options: UseFadeInOnViewOptions = {}) {
         observer.unobserve(ref.current);
       }
     };
-  }, [threshold, rootMargin, once]);
+  }, [threshold, rootMargin, once, scrollContainerRef]);
 
   return {
     ref,

@@ -53,6 +53,8 @@ export default function WindowRenderer() {
               ? "px-5 py-5"
               : window.type === "ask" || window.type === "work"
               ? "p-0"
+              : window.type === "about"
+              ? "px-8 pb-0 py-4"
               : "px-12 py-12"
           }
           showScrollFade={false}
