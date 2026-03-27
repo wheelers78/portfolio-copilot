@@ -187,7 +187,12 @@ export default function AboutWindow() {
   return (
     <div className="flex flex-col h-full">
       {/* Tab Navigation */}
-      <div className="sticky top-0 relative pb-0 backdrop-blur-lg" style={{ backgroundColor: "var(--window-bg)" }}>
+      <div
+        className="sticky top-0 relative pb-0 backdrop-blur-lg"
+        style={{
+          backgroundColor: "var(--window-bg)",
+          borderBottom: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
+        }}>
         <ul className="flex items-center gap-6">
           {tabs.map((tab, index) => {
             const isActive = tab === activeTab;
