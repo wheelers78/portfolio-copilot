@@ -116,8 +116,8 @@
 }
 
 :global([data-theme="dark"]) .button.active {
-  background-color: #ffffff;
-  color: #1a1a18;
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .button svg {

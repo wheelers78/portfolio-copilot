@@ -70,6 +70,7 @@
   --window-header-border: #2b2b2b;
   --window-header-text: #f4f4f4;
   --window-header-muted: #9c9c9c;
+  --window-overlay: rgba(255, 255, 255, 0.38);
   --glass-surface-light: rgba(255, 255, 255, 0.68);
   --glass-surface-light-strong: rgba(245, 245, 242, 0.78);
   --glass-border-light: rgba(0, 0, 0, 0.06);
@@ -89,6 +90,7 @@
   --surface-hover: #252525;
   --border: #2e2e2e;
   --border-subtle: #2f2f2f;
+  --accent: #b0b0ad;
   --tab-active-bg: #ededed;
   --tab-active-text: #111111;
   --tab-active-indicator: #e9e9e7;
@@ -96,7 +98,7 @@
   --ask-prompt-bg: rgba(255, 255, 255, 0.06);
   --ask-divider: rgba(255, 255, 255, 0.1);
   --window-bg: #1b1b1b;
-  --window-bg-inactive: #1e1e1e;
+  --window-bg-inactive: #151515;
   --window-border: rgba(255, 255, 255, 0.08);
   --window-border-active: #4a4a4a;
   --window-border-width: 1px;
@@ -106,6 +108,7 @@
   --window-header-border: #262626;
   --window-header-text: #e9e9e7;
   --window-header-muted: #8b8b8b;
+  --window-overlay: rgba(0, 0, 0, 0.88);
   --glass-surface-dark: rgba(18, 20, 30, 0.72);
   --glass-surface-dark-strong: rgba(14, 16, 24, 0.82);
   --glass-border-dark: rgba(255, 255, 255, 0.08);

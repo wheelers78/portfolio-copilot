@@ -26,7 +26,7 @@ export default function Tabs({ audiences, activeTab, onTabChange }: TabsProps) {
               type="button"
               onClick={() => handleTabClick(audience)}
               aria-current={isActive ? "true" : undefined}
-              className={`inline-flex h-8 items-end border-b border-transparent pb-1 text-[11px] leading-none tracking-[0.04em] transition-colors duration-200 ${
+              className={`inline-flex h-8 items-end border-b-[1.5px] border-transparent pb-1 text-[11px] leading-none tracking-[0.04em] transition-all duration-200 ${
                 isActive
                   ? "border-[var(--tab-active-indicator)] text-[var(--text-primary)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"

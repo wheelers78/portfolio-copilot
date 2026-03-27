@@ -135,7 +135,7 @@ export default function Window({
     <motion.article
       initial={{ opacity: 0, scale: 0.96, y: 6 }}
       animate={{
-        opacity: isActive ? 1 : 0.94,
+        opacity: 1,
         scale: isDragging ? 1.01 : 1,
         y: 0,
       }}
@@ -162,9 +162,9 @@ export default function Window({
           borderColor: isActive ? "var(--window-border-active)" : "var(--window-border)",
           boxShadow: isActive
             ? "0px 2px 1px -1px var(--window-shadow), 0px 1px 1px 0px var(--window-shadow), 0px 1px 3px 0px var(--window-shadow)"
-            : "0px 2px 1px -1px var(--window-shadow), 0px 1px 1px 0px var(--window-shadow), 0px 1px 3px 0px var(--window-shadow)",
-          backdropFilter: "blur(100px)",
-          filter: isActive ? "none" : "saturate(0.74) brightness(0.98)",
+            : "0px 0.5px 0.5px -1px var(--window-shadow), 0px 0px 0.5px 0px var(--window-shadow), 0px 0px 1px 0px var(--window-shadow)",
+          backdropFilter: isActive ? "blur(100px)" : "none",
+          filter: isActive ? "none" : "saturate(0.15) brightness(0.70) contrast(0.82)",
           transition: "box-shadow 200ms ease, border-color 200ms ease, backdrop-filter 200ms ease, filter 200ms ease, background 200ms ease",
         }}
       >
@@ -199,6 +199,19 @@ export default function Window({
             </svg>
           </button>
         </header>
+
+        {/* Inactive window overlay */}
+        {!isActive && (
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "var(--window-overlay)",
+              top: "36px",
+              height: "calc(100% - 36px)",
+            }}
+            aria-hidden="true"
+          />
+        )}
 
         {/* Scrollable content — flex-1 fills remaining height */}
         <div className="relative flex-1 min-h-0">
