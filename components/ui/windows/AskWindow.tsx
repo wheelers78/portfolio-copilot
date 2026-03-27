@@ -193,11 +193,11 @@ function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
         {answer.whyItMattered && (
           <div
             className="flex flex-col gap-[5px] pt-[16px]"
-            style={{ borderTop: "1px solid rgba(45, 91, 227, 0.25)" }}
+            style={{ borderTop: "1px solid var(--accent)", opacity: 0.25 }}
           >
             <p
               className="text-[9px] font-medium uppercase tracking-[0.14em]"
-              style={{ color: "#2d5be3" }}
+              style={{ color: "var(--accent)" }}
             >
               Why it matters
             </p>
