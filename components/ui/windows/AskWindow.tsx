@@ -114,7 +114,11 @@ function AskPromptCard({
             ? "cursor-pointer transition-all duration-150 hover:brightness-95 dark:hover:brightness-110 active:scale-[0.99]"
             : "",
         ].join(" ")}
-        style={{ background: "var(--ask-prompt-bg)" }}
+        style={{
+          background: "var(--ask-prompt-bg)",
+          backdropFilter: "blur(10px)",
+          border: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
+        }}
       >
         <span
           className="text-[9.5px] font-medium uppercase tracking-[0.14em]"
@@ -159,7 +163,11 @@ function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
       {/* Response card */}
       <div
         className="flex flex-col gap-[16px] rounded-2xl px-5 py-5 overflow-hidden"
-        style={{ background: "var(--ask-card-bg)" }}
+        style={{
+          background: "var(--ask-card-bg)",
+          backdropFilter: "blur(10px)",
+          border: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
+        }}
       >
         <h3
           className="font-sans text-[20px] font-medium leading-[1.15]"
@@ -558,7 +566,11 @@ export default function AskWindow() {
                         type="button"
                         onClick={() => submit(secondary.title)}
                         className="w-full text-left rounded-xl px-4 py-3 transition-all duration-150 hover:brightness-95 dark:hover:brightness-110"
-                        style={{ background: "var(--ask-prompt-bg)" }}
+                        style={{
+                          background: "var(--ask-prompt-bg)",
+                          backdropFilter: "blur(10px)",
+                          border: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
+                        }}
                       >
                         <p className="text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>
                           {secondary.title}
