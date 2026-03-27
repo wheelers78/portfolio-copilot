@@ -60,19 +60,11 @@ function AboutContent() {
 }
 
 function ExperienceContent() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const update = () => setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-    update();
-    const observer = new MutationObserver(update);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    return () => observer.disconnect();
-  }, []);
-
-  const cardStyle = isDark
-    ? { background: "#242424", border: "1px solid #2e2e2e" }
-    : { background: "#f9f9f9", border: "1px solid #ebebeb" };
+  const cardStyle = {
+    background: "var(--ask-card-bg)",
+    backdropFilter: "blur(10px)",
+    border: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
+  };
 
   const featuredCompanies = [
     {
@@ -195,7 +187,7 @@ export default function AboutWindow() {
   return (
     <div className="flex flex-col h-full">
       {/* Tab Navigation */}
-      <div className="sticky top-0 relative pb-0 backdrop-blur-lg" style={{ backgroundColor: "rgba(255, 255, 255, 0)" }}>
+      <div className="sticky top-0 relative pb-0 backdrop-blur-lg" style={{ backgroundColor: "var(--window-bg)" }}>
         <ul className="flex items-center gap-6">
           {tabs.map((tab, index) => {
             const isActive = tab === activeTab;
