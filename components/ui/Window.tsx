@@ -164,7 +164,7 @@ export default function Window({
             ? "0px 2px 1px -1px var(--window-shadow), 0px 1px 1px 0px var(--window-shadow), 0px 1px 3px 0px var(--window-shadow)"
             : "0px 0.5px 0.5px -1px var(--window-shadow), 0px 0px 0.5px 0px var(--window-shadow), 0px 0px 1px 0px var(--window-shadow)",
           backdropFilter: isActive ? "blur(100px)" : "none",
-          filter: isActive ? "none" : "saturate(0.15) brightness(0.70) contrast(0.82)",
+          filter: isActive ? "none" : "saturate(0.08) brightness(0.50) contrast(0.75)",
           transition: "box-shadow 200ms ease, border-color 200ms ease, backdrop-filter 200ms ease, filter 200ms ease, background 200ms ease",
         }}
       >
