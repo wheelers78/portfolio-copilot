@@ -111,7 +111,7 @@ function AskPromptCard({
         className={[
           "flex flex-1 flex-col items-start gap-[8px] rounded-2xl px-5 py-4",
           onClick
-            ? "cursor-pointer transition-all duration-150 hover:brightness-95 active:scale-[0.99]"
+            ? "cursor-pointer transition-all duration-150 hover:brightness-95 dark:hover:brightness-110 active:scale-[0.99]"
             : "",
         ].join(" ")}
         style={{ background: "var(--ask-prompt-bg)" }}
@@ -181,7 +181,7 @@ function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
               <p
                 key={i}
                 className="text-[12px] leading-[1.65]"
-                style={{ color: "#181818" }}
+                style={{ color: "var(--text-primary)" }}
               >
                 {item}
               </p>
@@ -193,7 +193,7 @@ function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
         {answer.whyItMattered && (
           <div
             className="flex flex-col gap-[5px] pt-[16px]"
-            style={{ borderTop: "1px solid var(--accent)", opacity: 0.25 }}
+            style={{ borderTop: "1px solid var(--accent)" }}
           >
             <p
               className="text-[9px] font-medium uppercase tracking-[0.14em]"
@@ -203,7 +203,7 @@ function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
             </p>
             <p
               className="text-[12px] leading-[1.65]"
-              style={{ color: "#181818" }}
+              style={{ color: "var(--text-primary)" }}
             >
               {answer.whyItMattered}
             </p>
@@ -557,7 +557,7 @@ export default function AskWindow() {
                       <button
                         type="button"
                         onClick={() => submit(secondary.title)}
-                        className="w-full text-left rounded-xl px-4 py-3 transition-colors duration-150"
+                        className="w-full text-left rounded-xl px-4 py-3 transition-all duration-150 hover:brightness-95 dark:hover:brightness-110"
                         style={{ background: "var(--ask-prompt-bg)" }}
                       >
                         <p className="text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>
