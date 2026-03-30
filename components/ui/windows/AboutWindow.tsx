@@ -15,10 +15,10 @@ const tabs = ["About", "Experience"];
 
 function AboutContent() {
   return (
-    <div className="space-y-4">
+    <div className="pt-0 space-y-4">
       <SplitTextHeading
         text="Dad. Husband. Designer."
-        className="text-[32px] font-sans leading-snug tracking-loose text-[var(--text-primary)] pb-2 font-medium"
+        className="text-[32px] font-sans leading-snug tracking-tight text-[var(--text-primary)] pb-2 font-medium"
         trigger={true}
         staggerDelay={0.05}
         wordDelay={0.1}
@@ -60,11 +60,36 @@ function AboutContent() {
 }
 
 function ExperienceContent() {
-  const cardStyle = {
-    background: "var(--ask-card-bg)",
-    backdropFilter: "blur(10px)",
-    border: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
-  };
+  const [isDark, setIsDark] = React.useState(() =>
+    typeof document !== "undefined" && document.documentElement.getAttribute("data-theme") === "dark"
+  );
+
+  React.useEffect(() => {
+    const update = () => {
+      const theme = document.documentElement.getAttribute("data-theme");
+      setIsDark(theme === "dark");
+    };
+
+    // Check initial state
+    update();
+
+    // Listen for changes
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
+
+  const cardStyle = isDark
+    ? {
+        background: "rgba(36, 36, 36, 0.9)",
+        backdropFilter: "blur(10px)",
+        border: "1px solid #2e2e2e"
+      }
+    : {
+        background: "rgba(249, 249, 249, 0.80)",
+        backdropFilter: "blur(10px)",
+        border: "0px solid #e8e8e8"
+      };
 
   const featuredCompanies = [
     {
@@ -104,23 +129,29 @@ function ExperienceContent() {
       {featuredCompanies.map((company, index) => (
         <FadeInUp key={index} delay={index * 0.1} duration={0.5}>
         <div
-          className="rounded-2xl flex flex-col px-6 pt-5 pb-8"
+          className="rounded-lg flex flex-col px-6 pt-5 pb-8 group aspect-square"
           style={cardStyle}
         >
           {/* Company label */}
-          <p className="text-[13px] text-[var(--text-muted)] mb-10">
+          <p className="text-[13px] text-[var(--text-primary)] mb-10 font-medium">
             {company.alt}
           </p>
-          {/* Logo */}
-          <div className="flex items-center justify-center py-10">
+          {/* Logo and Image Container */}
+          <div className="flex items-center justify-center flex-1 relative">
             <LogoImage
               name={company.name}
               alt={company.alt}
-              className="h-24 w-auto max-w-[320px] object-contain"
+              className="h-[86.4px] w-auto max-w-[280px] object-contain transition-opacity duration-300 group-hover:opacity-0"
+            />
+            {/* Hover Image */}
+            <img
+              src={`/images/${company.name}_2.0.png`}
+              alt={company.alt}
+              className="absolute h-full w-full object-contain opacity-0 scale-110 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100"
             />
           </div>
           {/* Title */}
-          <p className="text-[22px] font-medium pt-10 pb-2 text-[var(--text-primary)]">
+          <p className="text-[22px] font-medium pt-6 pb-2 text-[var(--text-primary)] tracking-tight">
             {company.title}
           </p>
           {/* Description */}
@@ -132,9 +163,9 @@ function ExperienceContent() {
       ))}
 
       {/* Other Brands — restored cycling behaviour, overflow clipped for responsiveness */}
-      <div className="pt-8 mt-8 border-t border-[var(--border-subtle)]">
-        <p className="text-[14px] font-sans font-medium text-[var(--text-primary)] pb-6 pt-4">
-          Brands I’ve worked with
+      <div className="pt-0">
+        <p className="text-[14px] font-sans font-medium text-[var(--text-primary)] pb-12 pt-0">
+          Companies & brands I’ve worked with
         </p>
         <div className="overflow-x-hidden w-full">
           <BrandLogoRail
@@ -182,16 +213,14 @@ export default function AboutWindow() {
     setHoveredPosition(null);
   };
 
-  const position = hoveredPosition || activePosition;
+  const position = activePosition;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full mx-auto w-full max-w-lg">
       {/* Tab Navigation */}
       <div
-        className="sticky top-0 relative pb-0 backdrop-blur-lg"
-        style={{
-          borderBottom: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
-        }}>
+        className="top-0 relative pb-0 z-10 -mx-3 px-3 pt-6 -mt-5"
+      >
         <ul className="flex items-center gap-6">
           {tabs.map((tab, index) => {
             const isActive = tab === activeTab;
@@ -222,7 +251,7 @@ export default function AboutWindow() {
 
         {/* Animated underline */}
         <div
-          className="absolute bottom-0 h-[1px] bg-[var(--text-primary)] transition-all duration-300 ease-out"
+          className="absolute bottom-0 h-px bg-[var(--text-primary)] transition-all duration-300 ease-out"
           style={{
             left: `${position.left}px`,
             width: `${position.width}px`,
@@ -231,7 +260,7 @@ export default function AboutWindow() {
       </div>
 
       {/* Content Area with Fade Transition */}
-      <div className="flex-1 overflow-y-auto pt-8">
+      <div className="pt-8">
         <div
           className="transition-opacity duration-150 ease-out"
           style={{ opacity: 1 }}

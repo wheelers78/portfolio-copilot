@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Host_Grotesk, Geist_Mono } from "next/font/google";
+import { Figtree, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Host_Grotesk({
+const geistSans = Figtree({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   weight: ["400", "500"],

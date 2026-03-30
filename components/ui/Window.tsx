@@ -111,8 +111,8 @@ export default function Window({
       const vh = window.innerHeight;
 
       const next = {
-        width: Math.max(MIN_WIDTH, Math.min(resizeStartRef.current.width + dx, vw - position.x - SAFE_MARGIN)),
-        height: Math.max(MIN_HEIGHT, Math.min(resizeStartRef.current.height + dy, vh - position.y - SAFE_MARGIN)),
+        width: Math.max(MIN_WIDTH, resizeStartRef.current.width + dx),
+        height: Math.max(MIN_HEIGHT, resizeStartRef.current.height + dy),
       };
 
       setSize(next);

@@ -32,7 +32,7 @@ export default function HeadlinePanel({ activeTab, headline, isInitialLoad = fal
           staggerDelay={0.1}
           wordDelay={0.06}
           duration={0.5}
-          className="font-sans text-[42px] font-medium leading-[1.08] tracking-loose text-[var(--text-primary)] md:text-[46px] lg:text-[62px]"
+          className="font-sans text-[42px] font-medium leading-[1.08] tracking-tight text-[var(--text-primary)] md:text-[46px] lg:text-[62px]"
         />
       </AnimatePresence>
     </div>

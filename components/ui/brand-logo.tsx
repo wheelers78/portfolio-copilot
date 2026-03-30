@@ -10,7 +10,9 @@ export interface LogoImageProps {
 }
 
 export const LogoImage = ({ name, alt, className, style }: LogoImageProps) => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.getAttribute("data-theme") === "dark"
+  );
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

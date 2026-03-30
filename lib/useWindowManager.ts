@@ -61,7 +61,7 @@ const getSizeForType = (type: WindowState["type"], role: WindowRole) => {
   if (role === "workspace") return { width: WORK_WIDTH, height: WORK_HEIGHT };
   switch (type) {
     case "about":
-      return { width: PRIMARY_WIDTH, height: 580 };
+      return { width: PRIMARY_WIDTH, height: 520 };
     case "ask":
       return { width: PRIMARY_WIDTH, height: 520 };
     case "work":

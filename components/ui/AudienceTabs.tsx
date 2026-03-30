@@ -27,6 +27,9 @@ export default function AudienceTabs() {
           <button
             key={audience}
             onClick={() => setActive(audience)}
+            style={{
+              boxShadow: active === audience ? "0 2px 0 0 #e9e9e7" : "none"
+            }}
             className={`px-3 py-1 text-xs font-medium rounded-full transition-all glass-base glass-button ${
               active === audience
                 ? "bg-[#1a1a18] text-[#fafaf8]"
