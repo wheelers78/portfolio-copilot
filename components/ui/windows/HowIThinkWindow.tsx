@@ -56,7 +56,7 @@ const VW = 1000;
 const VH = 940;
 const CX = 500;
 const CY = 470;
-const CENTRE_R = 158;
+const CENTRE_R = 185;
 const ORBIT_R = 400;
 const LABEL_R = 438;
 const NODE_R = 8;
@@ -130,7 +130,7 @@ export default function HowIThinkWindow() {
 
   const orbitStroke = isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.1)";
   const dotActive = "var(--text-primary)";
-  const dotInactive = isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)";
+  const dotInactive = isDark ? "rgba(150,150,150,1)" : "rgba(180,180,180,1)";
   const lblActive = "var(--text-primary)";
   const lblInactive = isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.65)";
   const centreTextColor = isDark ? "#181818" : "#ffffff";
@@ -319,6 +319,7 @@ export default function HowIThinkWindow() {
                 fill="none"
                 stroke={orbitStroke}
                 strokeWidth="1"
+                strokeDasharray="6,4"
               />
 
               {NODES.map((node, i) => {
@@ -365,11 +366,11 @@ export default function HowIThinkWindow() {
                       y={lbl.y}
                       textAnchor={labelAnchor(node.angle)}
                       dominantBaseline="middle"
-                      fontSize="20"
+                      fontSize="23"
                       fontFamily="var(--font-geist-mono), monospace"
-                      letterSpacing="0.14em"
+                      letterSpacing="0.16em"
                       fill={isActive ? lblActive : lblInactive}
-                      fontWeight="700"
+                      fontWeight="500"
                       style={{
                         textTransform: "uppercase",
                         transition: "fill 0.22s ease",
