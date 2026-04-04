@@ -62,6 +62,11 @@ export default function BaseCanvas() {
 
   React.useEffect(() => {
     window.localStorage.setItem("portfolio-theme", theme);
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
   }, [theme]);
 
   React.useEffect(() => {
@@ -144,7 +149,7 @@ export default function BaseCanvas() {
               opacity: 0.6,
             }}
           >
-            Experiment built with Claude, Cursor & Figma.
+            Built with Claude, Cursor & Figma
           </span>
         </footer>
       </CanvasLayout>

@@ -50,12 +50,30 @@ export default function LondonStatus({
   }, []);
 
   const displayTime = providedTime ?? time;
+  const [hours, minutes] = displayTime.split(":");
 
   return (
     <div className="font-mono flex items-center gap-3.5 text-right">
       <span>{greeting}</span>
       <span>{location}</span>
-      <span>{displayTime}</span>
+      <span>
+        {hours}
+        <span
+          className="inline-block"
+          style={{
+            animation: "blink 2s infinite",
+          }}
+        >
+          {minutes ? ":" : ""}
+        </span>
+        {minutes}
+        <style>{`
+          @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+          }
+        `}</style>
+      </span>
     </div>
   );
 }

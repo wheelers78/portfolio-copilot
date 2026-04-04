@@ -29,7 +29,7 @@ interface DockProps {
 }
 
 export default function Dock({ isInitialLoad = false }: DockProps) {
-  const { openWindow, closeWindow, windows } = useWindowManager();
+  const { openWindow, bringToFront, updatePosition, windows } = useWindowManager();
 
   const dockItems = [
     {
@@ -54,8 +54,10 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
   };
 
   const handleClick = (itemType: string, label: string) => {
+    const { closeWindow } = useWindowManager.getState();
     const existing = getWindow(itemType);
     if (existing) {
+      // Close window if already open
       closeWindow(existing.id);
     } else {
       openWindow(itemType as any, label);
@@ -88,6 +90,13 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
             </button>
           );
         })}
+        <button
+          type="button"
+          onClick={() => handleClick("how-i-think", "How I Think")}
+          className={`${styles.button} ${getWindow("how-i-think") ? styles.active : styles.inactive}`}
+        >
+          How I Think
+        </button>
       </div>
     </motion.div>
   );

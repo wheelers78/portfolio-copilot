@@ -9,12 +9,13 @@ import { FadeInUp } from "@/components/ui/FadeInUp";
 
 interface CaseStudyDetailProps {
   project: Project;
+  sectionLabel: string;
 }
 
-export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
-  // First image is the hero/cover image
-  const coverImage = project.images?.[0];
-  const remainingImages = project.images?.slice(1) || [];
+export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDetailProps) {
+  // All projects: use second image as hero background, third onwards as content
+  const heroImage = project.images?.[1];
+  const remainingImages = project.images?.slice(2) || [];
 
   return (
     <div className="w-full">
@@ -27,98 +28,169 @@ export default function CaseStudyDetail({ project }: CaseStudyDetailProps) {
           transition={{ duration: 0.2 }}
           className="space-y-0"
         >
-          {/* Cover image - flush at top, no sticky header */}
-          {coverImage && (
-            <FadeInUp threshold={0.3}>
-              <div className="w-full overflow-hidden">
-                <img
-                  src={coverImage}
-                  alt={`${project.title} cover`}
-                  className="w-full h-auto block"
-                />
+          {/* SECTION A: Hero header with background image and text overlay */}
+          {heroImage ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="w-full"
+              style={{
+                backgroundImage: `url(${heroImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                height: '256px',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingLeft: '80px',
+                paddingRight: '80px',
+                overflow: 'hidden',
+              }}
+            >
+              {/* Overlay for text readability — colour set via heroOverlayColor in projects.ts */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: project.heroOverlayColor ?? 'rgba(0, 0, 0, 0.5)',
+                }}
+              />
+
+              {/* Text content over background */}
+              <div
+                className="relative z-10 flex flex-col text-left"
+                style={{
+                  gap: '-1px',
+                }}
+              >
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="text-white/70 font-mono uppercase font-medium"
+                  style={{
+                    fontSize: '10px',
+                    lineHeight: '14.5px',
+                    letterSpacing: '0',
+                  }}
+                >
+                  {sectionLabel}
+                </motion.p>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut", delay: 0.05 }}
+                  className="text-white font-normal"
+                  style={{
+                    fontFamily: 'Figtree, sans-serif',
+                    fontSize: '47.99px',
+                    letterSpacing: '-0.48px',
+                    lineHeight: '62.39px',
+                    marginTop: '-1px',
+                  }}
+                >
+                  {project.title}
+                </motion.h1>
               </div>
-            </FadeInUp>
+            </motion.div>
+          ) : null}
+
+          {/* SECTION B: Intro blocks — one <p> per entry; omit field to hide section */}
+          {project.introBlocks && project.introBlocks.length > 0 && (
+            <div style={{ paddingLeft: '80px', paddingRight: '80px', paddingTop: '64px', paddingBottom: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {project.introBlocks.map((block, i) => (
+                <p
+                  key={i}
+                  style={{
+                    fontFamily: 'Figtree, sans-serif',
+                    fontSize: '20px',
+                    fontWeight: 400,
+                    lineHeight: '32px',
+                    color: 'var(--text-primary)',
+                    maxWidth: '800px',
+                  }}
+                >
+                  {block}
+                </p>
+              ))}
+            </div>
           )}
 
-          {/* Main content */}
-          <div className="px-12 py-8 space-y-3">
-            {/* Title */}
-            <div className="space-y-2">
-              <h1 className="text-3xl tracking-loose font-medium text-[var(--text-primary)]">
-                {project.title}
-              </h1>
-            </div>
-
-            {/* Summary */}
-            {(project.detail || project.summary) && (
-              <p className="text-lg leading-relaxed text-[var(--text-muted)] max-w-3xl">
-                {project.detail ?? project.summary}
-              </p>
-            )}
-
-            {/* Company & Role - two column layout */}
-            <div className="grid grid-cols-2 gap-8 py-4">
-              <div className="space-y-2">
-                <p className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
-                  Company
-                </p>
-                <p className="text-sm text-[var(--text-primary)]">
-                  {project.roleTitle}
-                </p>
+          {/* SECTION C: Meta fields — add/remove/relabel columns freely; omit field to hide section */}
+          {project.metaFields && project.metaFields.length > 0 && (
+            <div style={{ paddingLeft: '80px', paddingRight: '80px', paddingTop: '16px', paddingBottom: '16px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                {project.metaFields.map((field, i) => (
+                  <div
+                    key={i}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: i > 0 ? 1 : undefined }}
+                  >
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-geist-mono), monospace',
+                        fontSize: '12px',
+                        fontWeight: 400,
+                        textTransform: 'uppercase',
+                        color: 'var(--text-muted)',
+                        lineHeight: '17.4px',
+                        letterSpacing: '-0.1px',
+                      }}
+                    >
+                      {field.label}
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: 'Figtree, sans-serif',
+                        fontSize: '14px',
+                        fontWeight: 400,
+                        color: 'var(--text-primary)',
+                        lineHeight: '19.92px',
+                        maxWidth: '800px',
+                      }}
+                    >
+                      {field.value}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <div className="space-y-2">
-                <p className="text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
-                  Role
-                </p>
-                <p className="text-sm text-[var(--text-primary)]">
-                  {project.role}
-                </p>
-              </div>
             </div>
+          )}
 
-            {/* Remaining content sections */}
-            {project.challenge && (
-              <CaseStudySection label="Challenge" content={project.challenge} />
-            )}
-
-            {project.actions && project.actions.length > 0 && (
-              <CaseStudySection
-                label="Actions"
-                items={project.actions}
-                // isBulletList
-              />
-            )}
-
-            
-
-            {/* Remaining images */}
-            {remainingImages.length > 0 && (
-              <div className="space-y-4 pt-4">
+          {/* SECTION D: Image section */}
+          {remainingImages.length > 0 && (
+            <div className="px-12 py-8">
+              <div className="space-y-6">
                 {remainingImages.map((src, i) => (
-                  <FadeInUp key={i} delay={i * 0.08}>
-                    <div className="overflow-hidden">
+                  <FadeInUp key={i} delay={i * 0.1}>
+                    <div className="overflow-hidden rounded-lg">
                       <img
                         src={src}
-                        alt={`${project.title} visual ${i + 2}`}
+                        alt={`${project.title} visual ${i + 1}`}
                         className="w-full h-auto block"
                       />
                     </div>
                   </FadeInUp>
                 ))}
               </div>
-            )}
+            </div>
+          )}
 
-            {project.outcomes && project.outcomes.length > 0 && (
+          {/* Content sections — driven by data; add/remove/reorder in projects.ts */}
+          {project.contentSections?.map((section, i) => (
+            <div key={i} style={{ paddingLeft: '80px', paddingRight: '80px', marginBottom: '32px' }}>
               <CaseStudySection
-                label="Outcomes"
-                items={project.outcomes}
-                // isBulletList
+                label={section.label}
+                content={section.content}
+                paragraphs={section.paragraphs}
+                items={section.items}
+                isBulletList={section.isBulletList}
               />
-            )}
+            </div>
+          ))}
 
-            {/* Bottom padding */}
-            <div className="pb-12" />
-          </div>
+          {/* Bottom padding */}
+          <div className="pb-12" />
         </motion.div>
       </AnimatePresence>
     </div>

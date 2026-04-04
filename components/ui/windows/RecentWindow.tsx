@@ -21,9 +21,7 @@ export default function RecentWindow() {
   const [pressing, setPressing] = useState<string | null>(null);
   const [hover, setHover] = useState<HoverState | null>(null);
 
-  const openProjectSlugs = new Set(
-    windows.filter((w) => w.type === "project").map((w) => w.data?.slug)
-  );
+  const openWorkSlug = windows.find((w) => w.type === "work")?.data?.slug;
 
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>, slug: string) => {
@@ -41,7 +39,7 @@ export default function RecentWindow() {
   const handleOpen = (slug: string, title: string) => {
     const project = projects.find((p) => p.slug === slug);
     if (!project) return;
-    openWindow("project", title, project);
+    openWindow("work", title, project);
   };
 
   const hoveredProject = hover
@@ -58,7 +56,7 @@ export default function RecentWindow() {
           transition={{ type: "spring", bounce: 0.15, duration: 0.35 }}
         >
           {projects.map((project) => {
-            const isOpen = openProjectSlugs.has(project.slug);
+            const isOpen = openWorkSlug === project.slug;
             return (
               <motion.button
                 key={project.slug}

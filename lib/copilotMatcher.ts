@@ -36,6 +36,18 @@ const SYNONYM_MAP: [RegExp, string][] = [
   // Brand / visual
   [/\b(brand work|campaign|art direct|photography|shoot|visual direction)\b/g, "art direction"],
 
+  // Greeting
+  [/^(hi|hey|yo|howdy|greetings|sup|hello there|hey there)$/g, "hello"],
+
+  // About / self-intro
+  [/\b(who are you|tell me about you|about yourself|your background|your story|walk me through)\b/g, "about you"],
+
+  // Strengths
+  [/\b(what are you good at|your skills|top skills|best at|strongest|expertise|superpower|specialise|specialize)\b/g, "strengths"],
+
+  // Motivation
+  [/\b(what drives you|what motivates you|what makes you tick|what inspires you|what excites you|why design)\b/g, "what motivates you"],
+
   // Personal
   [/\b(hobbies|outside work|personal life|interests|life outside)\b/g, "personal"],
 
@@ -44,6 +56,9 @@ const SYNONYM_MAP: [RegExp, string][] = [
 
   // Challenges
   [/\b(difficult|hard|obstacle|struggled|problem you faced|toughest)\b/g, "challenge"],
+
+  // Engineering collaboration
+  [/\b(engineers?|developers?|dev team|front.?end|back.?end|implementation team)\b/g, "engineering"],
 ];
 
 /**
@@ -80,6 +95,7 @@ const STOP_WORDS = new Set([
   "in", "on", "at", "to", "for", "of", "and", "or", "but", "with",
   "can", "could", "would", "should", "have", "has", "had", "will",
   "it", "this", "that", "there", "then", "so", "about", "like",
+  "tell", "show", "give", "any", "more",
 ]);
 
 export function scoreAnswer(question: string, answer: CopilotAnswer): number {
@@ -91,7 +107,9 @@ export function scoreAnswer(question: string, answer: CopilotAnswer): number {
   // Keywords: +5 full phrase match, +3 if 2+ *content* words overlap
   for (const keyword of answer.keywords ?? []) {
     const k = keyword.toLowerCase();
-    if (q.includes(k)) {
+    // Use word-boundary matching to prevent "hi" matching inside "shipped"
+    const keywordRe = new RegExp(`\\b${k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+    if (keywordRe.test(q)) {
       score += 5;
       continue;
     }
@@ -107,7 +125,9 @@ export function scoreAnswer(question: string, answer: CopilotAnswer): number {
 
   // +3 per theme match
   for (const theme of answer.themes ?? []) {
-    if (q.includes(theme.toLowerCase())) {
+    const t = theme.toLowerCase();
+    const themeRe = new RegExp(`\\b${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+    if (themeRe.test(q)) {
       score += 3;
     }
   }
@@ -120,21 +140,102 @@ export function scoreAnswer(question: string, answer: CopilotAnswer): number {
   return score;
 }
 
+// ── Follow-up intent detection ────────────────────────────────────────────────
+//
+// These words signal that the user is asking *about the current topic* rather
+// than changing subject. When they appear in a contextual follow-up, we raise
+// the override threshold so a generic answer (e.g. "Challenges", "How I Work")
+// with a base score of 5 can't steal focus from the previous topic.
+//
+// Examples that should stay in context:
+//   "What was the challenge?"  → matches generic `challenges` at score 5
+//   "What was your approach?"  → matches generic `how-i-work` at score 5
+//
+// Examples that should correctly break context (NOT in this list):
+//   "What about Harbor?"       → has a direct keyword match for a specific answer
+//   "How do you work with engineers?" → synonym expansion gives a strong signal
+
+const FOLLOW_UP_INTENT_RE =
+  /\b(challenge[s]?|your role|the role|impact|outcome[s]?|result[s]?|visual[s]?|example[s]?|approach|improve[d]?|what did you|what was|tell me more)\b/;
+
 // ── Answer selection ──────────────────────────────────────────────────────────
 
+/**
+ * Returns the best 1–2 matching answers for the given question.
+ *
+ * contextAnswerId: the ID of the answer shown in the previous turn.
+ * When the query has no strong intrinsic signal, the previous answer gets a
+ * context boost so follow-ups stay on topic.
+ *
+ * The boost threshold is raised to 10 when the query contains follow-up intent
+ * words (challenge, role, impact, visuals, example, approach…). This prevents
+ * a generic answer with a base score of 5 from incorrectly overriding context
+ * for questions like "What was the challenge?" or "What was your approach?".
+ * Only a strong direct match (score ≥ 10) can break context in those cases.
+ */
 export function getBestAnswers(
   question: string,
-  answers: CopilotAnswer[]
+  answers: CopilotAnswer[],
+  contextAnswerId?: string
 ): CopilotAnswer[] {
   const normalized = normalizeQuestion(question);
   const candidates = answers.filter((a) => a.id !== "fallback");
 
-  const scored = candidates
-    .map((answer) => ({ answer, score: scoreAnswer(normalized, answer) }))
-    .sort((a, b) => b.score - a.score);
+  // ── Pass 1: check global topics first ────────────────────────────────────
+  // Global topics (greeting, about, strengths, etc.) take priority over
+  // project/topic answers — but only when no non-global answer scores higher.
+  const globals = candidates.filter((a) => a.global);
+  const nonGlobals = candidates.filter((a) => !a.global);
+  if (globals.length > 0) {
+    const globalScored = globals.map((answer) => ({
+      answer,
+      score: scoreAnswer(normalized, answer),
+    }));
+    globalScored.sort((a, b) => b.score - a.score);
+    const bestGlobalScore = globalScored[0].score;
+
+    if (bestGlobalScore >= 5) {
+      // Check if any non-global answer scores higher
+      const bestNonGlobalScore = nonGlobals.reduce(
+        (max, a) => Math.max(max, scoreAnswer(normalized, a)),
+        0
+      );
+      if (bestGlobalScore >= bestNonGlobalScore) {
+        console.log(
+          `[matcher] "${question}" → normalized: "${normalized}" | GLOBAL match`,
+          globalScored.slice(0, 3).map((s) => ({ id: s.answer.id, score: s.score }))
+        );
+        return globalScored.slice(0, 2).map((s) => s.answer);
+      }
+    }
+  }
+
+  // ── Pass 2: score all topics ─────────────────────────────────────────────
+  const scored = candidates.map((answer) => ({
+    answer,
+    score: scoreAnswer(normalized, answer),
+  }));
+
+  const maxBaseScore = scored.reduce((max, s) => Math.max(max, s.score), 0);
+
+  // Raise the threshold when the query looks like a contextual follow-up intent
+  // so generic answers don't steal focus from the current topic.
+  const isFollowUpIntent = !!contextAnswerId && FOLLOW_UP_INTENT_RE.test(normalized);
+  const boostThreshold = isFollowUpIntent ? 10 : 5;
+
+  if (contextAnswerId && maxBaseScore < boostThreshold) {
+    for (const item of scored) {
+      if (item.answer.id === contextAnswerId) {
+        item.score += 6;
+        break;
+      }
+    }
+  }
+
+  scored.sort((a, b) => b.score - a.score);
 
   console.log(
-    `[matcher] "${question}" → "${normalized}"`,
+    `[matcher] "${question}" → normalized: "${normalized}" | context: ${contextAnswerId ?? "none"}`,
     scored.slice(0, 5).map((s) => ({ id: s.answer.id, score: s.score }))
   );
 

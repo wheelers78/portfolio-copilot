@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { type Project } from "@/data/projects";
+import { ChevronRight } from "lucide-react";
 
 interface CaseStudyNavItemProps {
   project: Project;
@@ -19,36 +20,93 @@ export default function CaseStudyNavItem({
   onSelect,
   onHoverChange,
 }: CaseStudyNavItemProps) {
+  const thumbnailImage = project.images?.[0];
+  const isComingSoon = project.status === "comingSoon";
+
+  const sharedContent = (
+    <>
+      {/* Thumbnail image */}
+      {thumbnailImage && (
+        <div className="flex-shrink-0 w-8 h-8 rounded overflow-hidden">
+          <img
+            src={thumbnailImage}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
+      {/* Text content */}
+      <div className="flex-1 min-w-0">
+        <p
+          className="text-xs font-mono font-normal uppercase leading-[1.6]"
+          style={{
+            letterSpacing: "-0.12px",
+            color: isComingSoon
+              ? "var(--text-muted)"
+              : isSelected || isHovered
+              ? "var(--text-primary)"
+              : "var(--text-muted)",
+            fontWeight: 400,
+          }}
+        >
+          {project.title}
+        </p>
+        {isComingSoon && (
+          <p
+            className="text-xs font-mono font-normal leading-[1.6]"
+            style={{
+              letterSpacing: "-0.12px",
+              color: "var(--text-muted)",
+              fontSize: "10px",
+            }}
+          >
+            Coming Soon
+          </p>
+        )}
+      </div>
+
+      {/* Arrow icon - only visible on selected active items */}
+      {isSelected && !isComingSoon && (
+        <motion.div
+          className="flex-shrink-0 ml-auto"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+        >
+          <ChevronRight className="w-4 h-4" style={{ color: 'var(--text-primary)' }} />
+        </motion.div>
+      )}
+    </>
+  );
+
+  // Coming-soon items render as a plain div — no click, no hover, default cursor
+  if (isComingSoon) {
+    return (
+      <div
+        className="w-full text-left px-2 py-2 flex items-center gap-3 rounded-lg"
+        style={{ cursor: "default", backgroundColor: "transparent" }}
+      >
+        {sharedContent}
+      </div>
+    );
+  }
+
   return (
     <motion.button
       onClick={onSelect}
       onMouseEnter={() => onHoverChange?.(true)}
       onMouseLeave={() => onHoverChange?.(false)}
-      className="w-full text-left p-4 group cursor-pointer transition-colors duration-200"
-      whileHover={{ y: -2 }}
-      transition={{ type: "spring", stiffness: 200, damping: 30 }}
+      className="w-full text-left px-2 py-2 group cursor-pointer transition-colors duration-200 flex items-center gap-3 rounded-lg"
+      style={{
+        backgroundColor: isSelected
+          ? "var(--nav-item-active-bg)"
+          : isHovered
+          ? "var(--nav-item-hover-bg)"
+          : "transparent",
+      }}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 space-y-1.5">
-          <p
-            className={`text-lg font-medium leading-snug transition-colors tracking-relaxed ${
-              isSelected
-                ? "text-[var(--text-primary)]"
-                : "text-[var(--text-primary)] group-hover:text-[var(--text-primary)]"
-            }`}
-          >
-            {project.title}
-          </p>
-          <p className="text-xs leading-relaxed text-[var(--text-muted)] line-clamp-3">
-            {project.summary}
-          </p>
-        </div>
-        <div className={`flex-shrink-0 pt-0.5 text-[var(--text-muted)] transition-all ${
-          isSelected || isHovered ? "opacity-100 group-hover:translate-x-0.5" : "opacity-0"
-        }`}>
-          →
-        </div>
-      </div>
+      {sharedContent}
     </motion.button>
   );
 }

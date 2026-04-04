@@ -7,8 +7,8 @@ import { useWindowManager } from "@/lib/useWindowManager";
 import AboutWindow from "./windows/AboutWindow";
 import AskWindow from "./windows/AskWindow";
 import RecentWindow from "./windows/RecentWindow";
-import ProjectWindow from "./windows/ProjectWindow";
 import WorkWindow from "./windows/WorkWindow";
+import HowIThinkWindow from "./windows/HowIThinkWindow";
 import { WindowState } from "@/lib/useWindowManager";
 
 export default function WindowRenderer() {
@@ -24,10 +24,10 @@ export default function WindowRenderer() {
         return <AskWindow />;
       case "recent":
         return <RecentWindow />;
-      case "project":
-        return <ProjectWindow project={window.data} />;
       case "work":
         return <WorkWindow initialSlug={window.data?.slug} />;
+      case "how-i-think":
+        return <HowIThinkWindow />;
       default:
         return null;
     }
@@ -51,11 +51,11 @@ export default function WindowRenderer() {
           contentClassName={
             window.type === "recent"
               ? "px-5 py-5"
-              : window.type === "ask" || window.type === "work"
+              : window.type === "ask" || window.type === "work" || window.type === "how-i-think"
               ? "p-0"
               : window.type === "about"
               ? "px-8 pb-0 py-4"
-              : "px-12 py-12"
+              : ""
           }
           showScrollFade={false}
         >

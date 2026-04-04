@@ -38,7 +38,7 @@ export const BrandLogoRail = ({
   }, [slotCount, slotDelay, transitionDuration, pauseAfterCycle]);
 
   // Softer cubic-bezier for premium, settling feel
-  const premiumEase = [0.22, 1, 0.36, 1];
+  const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
   const logoVariants = {
     exit: {

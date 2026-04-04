@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { routeQuery, RouteResult } from "@/lib/queryRouter";
+import { routeQuery, RouteResult, QueryIntent } from "@/lib/queryRouter";
 import { CopilotAnswer, suggestedPrompts } from "@/data/copilot";
 
 type AskState = "idle" | "thinking" | "answer";
@@ -121,8 +121,8 @@ function AskPromptCard({
         }}
       >
         <span
-          className="text-[9.5px] font-medium uppercase tracking-[0.14em]"
-          style={{ color: "var(--text-muted)" }}
+          className="font-mono text-xs font-normal uppercase"
+          style={{ color: "var(--text-muted)", letterSpacing: "-0.1px" }}
         >
           {label}
         </span>
@@ -146,9 +146,26 @@ function AskPromptCard({
 
 // ── Response content ───────────────────────────────────────────────────────────
 
-function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
+const INTENT_LABELS: Record<string, string> = {
+  outcome: "Outcomes",
+  challenge: "Challenge",
+  approach: "Approach",
+  role: "Role",
+};
+
+function AskResponseContent({ answer, intent }: { answer: CopilotAnswer; intent: QueryIntent }) {
   const hasImages = answer.images && answer.images.length > 0;
-  // Show at most 2 detail items — enough to add depth without overwhelming
+
+  // Resolve intent-specific section content if available
+  const sectionKey = intent === "outcome" || intent === "challenge" || intent === "approach" || intent === "role"
+    ? intent
+    : null;
+  const sectionContent = sectionKey ? answer.sections?.[sectionKey] : null;
+
+  // For visuals intent: show title + images only (minimal text)
+  const visualsOnly = intent === "visuals" && hasImages;
+
+  // Normal (overview) rendering: summary + detail items + whyItMattered
   const detailItems = (answer.detail ?? []).slice(0, 2);
 
   return (
@@ -175,50 +192,72 @@ function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
         >
           {answer.title}
         </h3>
-        <p
-          className="text-[13px] leading-[1.7]"
-          style={{ color: "var(--text-primary)" }}
-        >
-          {answer.summary}
-        </p>
 
-        {/* Detail items — supporting context, max 2 */}
-        {detailItems.length > 0 && (
-          <div className="flex flex-col gap-[5px]">
-            {detailItems.map((item, i) => (
-              <p
-                key={i}
-                className="text-[12px] leading-[1.65]"
-                style={{ color: "var(--text-primary)" }}
-              >
-                {item}
-              </p>
-            ))}
-          </div>
-        )}
-
-        {/* Why it mattered — only if present */}
-        {answer.whyItMattered && (
-          <div
-            className="flex flex-col gap-[5px] pt-[16px]"
-            style={{ borderTop: "1px solid var(--accent)" }}
-          >
+        {/* Intent-specific section content */}
+        {sectionContent ? (
+          <div className="flex flex-col gap-[8px]">
             <p
-              className="text-[9px] font-medium uppercase tracking-[0.14em]"
-              style={{ color: "var(--accent)" }}
+              className="font-mono text-xs font-normal uppercase"
+              style={{ color: "var(--accent)", letterSpacing: "-0.1px" }}
             >
-              Why it matters
+              {INTENT_LABELS[intent as string]}
             </p>
             <p
-              className="text-[12px] leading-[1.65]"
+              className="text-[13px] leading-[1.7]"
               style={{ color: "var(--text-primary)" }}
             >
-              {answer.whyItMattered}
+              {sectionContent}
             </p>
           </div>
-        )}
+        ) : !visualsOnly ? (
+          <>
+            {/* Default: summary + detail items */}
+            <p
+              className="text-[16px] leading-[1.7]"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {answer.summary}
+            </p>
 
-        {/* Image grid — shown when answer has associated images */}
+            {detailItems.length > 0 && (
+              <div className="flex flex-col gap-[5px]">
+                {detailItems.map((item, i) => (
+                  <p
+                    key={i}
+                    className="text-[13px] leading-[1.65]"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
+            )}
+
+            {/* Why it mattered — only on overview */}
+            {answer.whyItMattered && (
+              <div className="flex flex-col gap-[5px] pt-[16px]">
+                <div
+                  className="h-px w-full mb-[12px]"
+                  style={{ background: "var(--accent)", opacity: 0.2 }}
+                />
+                <p
+                  className="font-mono text-xs font-normal uppercase"
+                  style={{ color: "var(--accent)", letterSpacing: "-0.1px", opacity: 0.8 }}
+                >
+                  Why it matters
+                </p>
+                <p
+                  className="text-[13px] leading-[1.65]"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {answer.whyItMattered}
+                </p>
+              </div>
+            )}
+          </>
+        ) : null}
+
+        {/* Image grid — always shown when images exist; leads for visuals intent */}
         {hasImages && (
           <div className="mt-1 grid grid-cols-2 gap-[6px]">
             {answer.images!.map((img, i) => (
@@ -226,7 +265,6 @@ function AskResponseContent({ answer }: { answer: CopilotAnswer }) {
                 key={i}
                 className={[
                   "relative overflow-hidden rounded-xl aspect-[4/3]",
-                  // If odd number and last item, span full width
                   answer.images!.length % 2 !== 0 && i === answer.images!.length - 1
                     ? "col-span-2"
                     : "",
@@ -273,19 +311,19 @@ function AskFollowUpList({
   return (
     <div>
       <p
-        className="mb-1 text-[9.5px] font-medium uppercase tracking-[0.14em]"
-        style={{ color: "var(--text-muted)" }}
+        className="font-mono text-xs font-normal uppercase"
+        style={{ color: "var(--muted)", letterSpacing: "-0.1px", opacity: 1 }}
       >
         Follow up
       </p>
-      <div className="flex flex-col">
+      <div className="flex flex-col pt-2">
         {filtered.slice(0, 3).map((prompt) => (
           <button
             key={prompt}
             type="button"
             onClick={() => onSelect(prompt)}
-            className="flex items-baseline gap-[9px] py-[5px] text-left text-[13px] transition-opacity duration-100 hover:opacity-55"
-            style={{ color: "var(--text-muted)" }}
+            className="flex items-baseline gap-[9px] py-[5px] text-left text-[13px] transition-opacity duration-100 hover:opacity-60"
+            style={{ color: "var(--text-primary)" }}
           >
             <span className="shrink-0 text-[11px] leading-none" aria-hidden>
               →
@@ -398,6 +436,8 @@ export default function AskWindow() {
   const [query, setQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [result, setResult] = useState<RouteResult | null>(null);
+  // Track the last answered topic so follow-ups can stay in context
+  const [currentTopicId, setCurrentTopicId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const followUpRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -423,9 +463,12 @@ export default function AskWindow() {
     setSubmittedQuery(trimmed);
     setQuery("");
     setAskState("thinking");
+    // Capture current topic for follow-up context (closure over state at call time)
+    const topicContext = currentTopicId ?? undefined;
     setTimeout(() => {
-      const res = routeQuery(trimmed);
+      const res = routeQuery(trimmed, topicContext);
       setResult(res);
+      setCurrentTopicId(res.answer.id !== "fallback" ? res.answer.id : topicContext ?? null);
       setAskState("answer");
     }, 820);
   };
@@ -435,6 +478,7 @@ export default function AskWindow() {
     setQuery("");
     setSubmittedQuery("");
     setResult(null);
+    setCurrentTopicId(null);
   };
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -446,13 +490,44 @@ export default function AskWindow() {
       {askState === "idle" && (
         <>
           <div className="flex flex-1 flex-col px-6 pt-6 pb-5 gap-4">
+            {/* Greeting message card with fade-in */}
+            <FadeIn delay={0}>
+              <div className="flex items-start gap-3">
+                {/* Paul's avatar */}
+                <img
+                  src="/images/profile.png"
+                  alt="Paul"
+                  className="h-[30px] w-[30px] shrink-0 rounded-full object-cover"
+                />
+
+                {/* Greeting card */}
+                <div
+                  className="flex flex-1 flex-col gap-[8px] rounded-2xl px-5 py-4"
+                  style={{
+                    background: "var(--ask-card-bg)",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid var(--glass-border-dark, rgba(255, 255, 255, 0.08))"
+                  }}
+                >
+                  <p
+                    className="text-[15px] leading-[1.5]"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    Hey — I'm Paul. Ask me anything about my work, how I approach design, or what I've shipped.
+                  </p>
+                </div>
+              </div>
+            </FadeIn>
+
             {/* Section label */}
-            <p
-              className="text-[9.5px] font-medium uppercase tracking-[0.14em]"
-              style={{ color: "var(--text-muted)" }}
-            >
-              Try asking
-            </p>
+            <FadeIn delay={100}>
+              <p
+                className="text-[9.5px] font-medium uppercase tracking-[0.14em]"
+                style={{ color: "var(--text-muted)" }}
+              >
+                Try asking
+              </p>
+            </FadeIn>
 
             {/* Example card — no person icon, left-aligned */}
             <AskPromptCard
@@ -463,20 +538,22 @@ export default function AskWindow() {
             />
 
             {/* Suggested prompts */}
-            <div className="flex flex-col">
-              {suggestedPrompts.slice(1, 4).map((prompt) => (
-                <button
-                  key={prompt}
-                  type="button"
-                  onClick={() => submit(prompt)}
-                  className="flex items-baseline gap-[9px] py-[6px] text-left text-[13px] transition-opacity duration-100 hover:opacity-55"
-                  style={{ color: "var(--text-muted)" }}
-                >
-                  <span className="shrink-0 text-[11px] leading-none" aria-hidden>→</span>
-                  <span>{prompt}</span>
-                </button>
-              ))}
-            </div>
+            <FadeIn delay={200}>
+              <div className="flex flex-col">
+                {suggestedPrompts.slice(0, 3).map((prompt) => (
+                  <button
+                    key={prompt}
+                    type="button"
+                    onClick={() => submit(prompt)}
+                    className="flex items-baseline gap-[9px] py-[6px] text-left text-[13px] transition-opacity duration-100 hover:opacity-55"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    <span className="shrink-0 text-[11px] leading-none" aria-hidden>→</span>
+                    <span>{prompt}</span>
+                  </button>
+                ))}
+              </div>
+            </FadeIn>
           </div>
           <AskInputBar
             value={query}
@@ -525,7 +602,7 @@ export default function AskWindow() {
 
               {/* Response */}
               <FadeIn delay={80}>
-                <AskResponseContent answer={answer} />
+                <AskResponseContent answer={answer} intent={result.intent} />
               </FadeIn>
 
               {/* Follow-ups */}
@@ -557,8 +634,8 @@ export default function AskWindow() {
                     />
                     <div className="mt-6">
                       <p
-                        className="mb-2 text-[9.5px] font-medium uppercase tracking-[0.14em]"
-                        style={{ color: "var(--text-muted)" }}
+                        className="font-mono text-xs font-normal uppercase pb-4"
+                        style={{ color: "var(--muted)", letterSpacing: "-0.1px", opacity: 1 }}
                       >
                         You might also explore
                       </p>
@@ -575,7 +652,7 @@ export default function AskWindow() {
                         <p className="text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>
                           {secondary.title}
                         </p>
-                        <p className="mt-1 text-[12px] leading-[1.5]" style={{ color: "var(--text-muted)" }}>
+                        <p className="mt-1 text-[13px] leading-[1.5]" style={{ color: "var(--text-muted)" }}>
                           {secondary.summary}
                         </p>
                       </button>
@@ -586,14 +663,14 @@ export default function AskWindow() {
 
               {/* New question link — sits below follow-ups */}
               <FadeIn delay={280}>
-                <div className="pt-1 pb-1">
+                <div className="pt-1 pb-8">
                   <button
                     type="button"
                     onClick={reset}
-                    className="text-[11px] transition-opacity duration-100 hover:opacity-55"
-                    style={{ color: "var(--text-muted)" }}
+                    className="text-[13px] transition-opacity duration-100 hover:opacity-80"
+                    style={{ color: "var(--accent)", letterSpacing: "-0.1px" }}
                   >
-                    ← New question
+                    ← Ask new question
                   </button>
                 </div>
               </FadeIn>

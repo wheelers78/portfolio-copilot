@@ -1,17 +1,18 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { SplitTextHeading } from "../SplitTextHeading";
 import { BrandLogoRail } from "../brand-logo-rail";
-import { LogoImage } from "../brand-logo";
 import { FadeInUp } from "../FadeInUp";
+import { OrbitDiagram } from "../OrbitDiagram";
 
 interface TabPosition {
   left: number;
   width: number;
 }
 
-const tabs = ["About", "Experience"];
+const tabs = ["About", "How I work", "Experience"];
 
 function AboutContent() {
   return (
@@ -27,7 +28,7 @@ function AboutContent() {
       />
 
       <p className="text-[16px] font-sans leading-snug text-[var(--text-primary)] pb-2">
-        I’m a Product Design Lead with 15+ years’ experience, working across systems, platforms, and product.
+        I'm a Product Design Lead with 15+ years' experience, working across systems, platforms, and product.
         I spend most of my time turning complex, messy problems into things that feel clear and usable.
       </p>
 
@@ -37,15 +38,30 @@ function AboutContent() {
       </p>
 
       <p className="text-[16px] font-sans leading-snug text-[var(--text-primary)]">
-        Outside of work, I’m a dad and a husband — which keeps me grounded, and honest about what really matters.
+        Outside of work, I'm a dad and a husband — which keeps me grounded, and honest about what really matters.
       </p>
 
       <p className="text-[16px] font-sans leading-snug text-[var(--text-primary)]">
-        Right now, I’m focused on how AI can help us move faster — and close the gap between idea and execution.
+        Right now, I'm focused on how AI can help us move faster — and close the gap between idea and execution.
       </p>
 
       <div className="pt-6 flex flex-col">
-        <p className="text-[13px]leading-relaxed text-[var(--text-muted)]">Connect on Linkedin</p>
+        <a
+          href="https://www.linkedin.com/in/wheelers78/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative inline-flex items-center gap-[6px] w-fit text-[13px] leading-relaxed text-[var(--text-muted)] transition-colors duration-200 hover:text-[var(--text-primary)] pb-[2px]"
+        >
+          <span>Connect on Linkedin</span>
+          <svg width="13" height="13" viewBox="0 0 32 32" fill="currentColor" className="shrink-0 opacity-70 transition-opacity duration-200 group-hover:opacity-100">
+            <path d="M26 28H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10v2H6v20h20V16h2v10a2 2 0 0 1-2 2z"/>
+            <path d="M20 2v2h6.586L18 12.586 19.414 14 28 5.414V12h2V2H20z"/>
+          </svg>
+          {/* faint base underline */}
+          <span className="absolute bottom-0 left-0 h-px w-full" style={{ background: "var(--text-muted)", opacity: 0.25 }} />
+          {/* animated fill underline */}
+          <span className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100" style={{ background: "var(--text-primary)" }} />
+        </a>
       </div>
 
       <div className="pt-4 flex justify-center pb-8">
@@ -59,56 +75,60 @@ function AboutContent() {
   );
 }
 
-function ExperienceContent() {
-  const [isDark, setIsDark] = React.useState(() =>
-    typeof document !== "undefined" && document.documentElement.getAttribute("data-theme") === "dark"
+function HowIWorkContent() {
+  return (
+    <div className="pt-2 pb-4">
+      <OrbitDiagram />
+    </div>
   );
+}
 
-  React.useEffect(() => {
-    const update = () => {
-      const theme = document.documentElement.getAttribute("data-theme");
-      setIsDark(theme === "dark");
-    };
+const PREVIEW_W = 300;
+const PREVIEW_H = Math.round(300 * (920 / 1050)); // matches source image ratio 1050×920
+const CURSOR_OFFSET_X = 24;
+const CURSOR_OFFSET_Y = -PREVIEW_H / 2; // vertically centred on cursor
 
-    // Check initial state
-    update();
+function ExperienceContent() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [cursorPos, setCursorPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
-    // Listen for changes
-    const observer = new MutationObserver(update);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    return () => observer.disconnect();
+  useEffect(() => {
+    setMounted(true);
+    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
   }, []);
 
-  const cardStyle = isDark
-    ? {
-        background: "rgba(36, 36, 36, 0.9)",
-        backdropFilter: "blur(10px)",
-        border: "1px solid #2e2e2e"
-      }
-    : {
-        background: "rgba(249, 249, 249, 0.80)",
-        backdropFilter: "blur(10px)",
-        border: "0px solid #e8e8e8"
-      };
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isTouch) return;
+    // Clamp so card stays within viewport
+    const x = Math.min(e.clientX + CURSOR_OFFSET_X, window.innerWidth - PREVIEW_W - 8);
+    const y = Math.max(8, Math.min(e.clientY + CURSOR_OFFSET_Y, window.innerHeight - PREVIEW_H - 8));
+    setCursorPos({ x, y });
+  };
 
-  const featuredCompanies = [
+  const handleMouseEnter = (i: number) => {
+    setHoveredIndex(i);
+  };
+
+  const experiences = [
     {
-      name: "wgsn",
-      alt: "WGSN",
-      title: "Product Design Lead",
-      description: "As Lead Product Designer at WGSN, I drive end-to-end design across four engineering squads - from concept to rollout - delivering new features and platform improvements that elevate the user experience.",
+      company: "WGSN",
+      role: "Product Design Lead",
+      impact: "Lead design across four engineering squads — from zero to shipped on platform features used by global trend forecasters.",
+      hoverImage: "Experience_WGSN.png",
     },
     {
-      name: "sedna",
-      alt: "SEDNA",
-      title: "Design Lead",
-      description: "At SEDNA, I co-led and mentored a team of seven product designers, fostering a collaborative culture that encouraged experimentation and design excellence.",
+      company: "SEDNA",
+      role: "Design Lead",
+      impact: "Co-led and mentored a team of seven, building a culture of craft, experimentation, and design excellence.",
+      hoverImage: "Experience_Sedna.png",
     },
     {
-      name: "miq",
-      alt: "MiQ",
-      title: "Product Design Lead",
-      description: "Over three years at MiQ, I helped evolve the company’s design practice from executional to strategic. I built and mentored a six-person design team, introduced design thinking and user-centred principles, and championed cross-functional collaboration across global offices.",
+      company: "MiQ",
+      role: "Product Design Lead",
+      impact: "Built a six-person team and moved the design practice from executional to strategic across global offices.",
+      hoverImage: "Experience_MiQ.png",
     },
   ];
 
@@ -123,51 +143,100 @@ function ExperienceContent() {
     { name: "lacoste", alt: "Lacoste" },
   ];
 
-  return (
-    <div className="space-y-10">
-      {/* Featured Companies */}
-      {featuredCompanies.map((company, index) => (
-        <FadeInUp key={index} delay={index * 0.1} duration={0.5}>
-        <div
-          className="rounded-lg flex flex-col px-6 pt-5 pb-8 group aspect-square"
-          style={cardStyle}
-        >
-          {/* Company label */}
-          <p className="text-[13px] text-[var(--text-primary)] mb-10 font-medium">
-            {company.alt}
-          </p>
-          {/* Logo and Image Container */}
-          <div className="flex items-center justify-center flex-1 relative">
-            <LogoImage
-              name={company.name}
-              alt={company.alt}
-              className="h-[86.4px] w-auto max-w-[280px] object-contain transition-opacity duration-300 group-hover:opacity-0"
-            />
-            {/* Hover Image */}
-            <img
-              src={`/images/${company.name}_2.0.png`}
-              alt={company.alt}
-              className="absolute h-full w-full object-contain opacity-0 scale-110 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100"
-            />
-          </div>
-          {/* Title */}
-          <p className="text-[22px] font-medium pt-6 pb-2 text-[var(--text-primary)] tracking-tight">
-            {company.title}
-          </p>
-          {/* Description */}
-          <p className="text-[13px] leading-relaxed text-[var(--text-muted)]">
-            {company.description}
-          </p>
-        </div>
-        </FadeInUp>
-      ))}
+  const isVisible = hoveredIndex !== null && !isTouch;
 
-      {/* Other Brands — restored cycling behaviour, overflow clipped for responsiveness */}
-      <div className="pt-0">
-        <p className="text-[14px] font-sans font-medium text-[var(--text-primary)] pb-12 pt-0">
-          Companies & brands I’ve worked with
+  return (
+    <div className="space-y-0">
+      {/* Compact experience list */}
+      <div>
+        {experiences.map((exp, i) => (
+          <FadeInUp key={i} delay={i * 0.07} duration={0.4}>
+            <div
+              className="py-4 border-b last:border-0 cursor-default transition-opacity duration-200"
+              style={{
+                borderColor: "var(--border-subtle)",
+                opacity: hoveredIndex !== null && hoveredIndex !== i ? 0.35 : 1,
+              }}
+              onMouseEnter={() => handleMouseEnter(i)}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <div className="flex items-baseline justify-between gap-4 mb-1">
+                <p className="text-[15px] font-medium text-[var(--text-primary)] tracking-tight">
+                  {exp.company}
+                </p>
+                <p className="text-[12px] text-[var(--text-muted)] shrink-0">{exp.role}</p>
+              </div>
+              <p className="text-[13px] leading-relaxed text-[var(--text-muted)]">
+                {exp.impact}
+              </p>
+
+              {/* Inline image fallback for touch/small screens */}
+              <div
+                className="mt-3 overflow-hidden rounded-md sm:hidden"
+                style={{
+                  maxHeight: hoveredIndex === i ? "120px" : "0px",
+                  transition: "max-height 0.3s ease",
+                }}
+              >
+                <img
+                  src={`/images/${exp.hoverImage}`}
+                  alt={exp.company}
+                  className="w-full h-[120px] object-cover"
+                />
+              </div>
+            </div>
+          </FadeInUp>
+        ))}
+      </div>
+
+      {/* Floating preview portal — desktop only */}
+      {mounted && createPortal(
+        <div
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            top: cursorPos.y,
+            left: cursorPos.x,
+            width: PREVIEW_W,
+            height: PREVIEW_H,
+            zIndex: 9999,
+            borderRadius: 10,
+            overflow: "hidden",
+            pointerEvents: "none",
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "scale(1)" : "scale(0.94)",
+            transition: "opacity 0.18s ease, transform 0.18s ease",
+            boxShadow: "0 12px 40px rgba(0,0,0,0.22), 0 1px 4px rgba(0,0,0,0.10)",
+          }}
+          className="hidden sm:block"
+        >
+          {experiences.map((exp, i) => (
+            <img
+              key={i}
+              src={`/images/${exp.hoverImage}`}
+              alt=""
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                opacity: hoveredIndex === i ? 1 : 0,
+                transition: "opacity 0.18s ease",
+              }}
+            />
+          ))}
+        </div>,
+        document.body
+      )}
+
+      {/* Logo rail — supporting proof, not primary */}
+      <div className="pt-10 pb-8">
+        <p className="text-[11px] font-sans uppercase tracking-widest text-[var(--text-muted)] pb-6 opacity-50">
+          Also worked with
         </p>
-        <div className="overflow-x-hidden w-full">
+        <div className="overflow-x-hidden w-full opacity-60">
           <BrandLogoRail
             brands={allBrands}
             slotCount={4}
@@ -176,7 +245,6 @@ function ExperienceContent() {
             pauseAfterCycle={1.5}
           />
         </div>
-        <div className="h-8" />
       </div>
     </div>
   );
@@ -185,7 +253,6 @@ function ExperienceContent() {
 export default function AboutWindow() {
   const [activeTab, setActiveTab] = useState("About");
   const [activePosition, setActivePosition] = useState<TabPosition>({ left: 0, width: 0 });
-  const [hoveredPosition, setHoveredPosition] = useState<TabPosition | null>(null);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
@@ -197,21 +264,6 @@ export default function AboutWindow() {
       });
     }
   }, [activeTab]);
-
-  const handleMouseEnter = (tab: string) => {
-    const index = tabs.indexOf(tab);
-    const button = tabsRef.current[index];
-    if (button) {
-      setHoveredPosition({
-        left: button.offsetLeft,
-        width: button.offsetWidth,
-      });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredPosition(null);
-  };
 
   const position = activePosition;
 
@@ -233,8 +285,6 @@ export default function AboutWindow() {
                   }}
                   type="button"
                   onClick={() => setActiveTab(tab)}
-                  onMouseEnter={() => handleMouseEnter(tab)}
-                  onMouseLeave={handleMouseLeave}
                   aria-current={isActive ? "true" : undefined}
                   className={`px-0 py-2 text-[14px] font-normal transition-colors duration-150 cursor-pointer ${
                     isActive
@@ -259,13 +309,11 @@ export default function AboutWindow() {
         />
       </div>
 
-      {/* Content Area with Fade Transition */}
+      {/* Content Area */}
       <div className="pt-8">
-        <div
-          className="transition-opacity duration-150 ease-out"
-          style={{ opacity: 1 }}
-        >
+        <div className="transition-opacity duration-150 ease-out" style={{ opacity: 1 }}>
           {activeTab === "About" && <AboutContent />}
+          {activeTab === "How I work" && <HowIWorkContent />}
           {activeTab === "Experience" && <ExperienceContent />}
         </div>
       </div>

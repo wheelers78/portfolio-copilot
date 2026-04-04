@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { projects, type Project } from "@/data/projects";
+import React, { useState, useRef, useEffect } from "react";
+import { projects } from "@/data/projects";
 import CaseStudyNav from "./CaseStudyNav";
 import CaseStudyDetail from "./CaseStudyDetail";
 
@@ -10,22 +10,31 @@ interface WorkWindowProps {
 }
 
 export default function WorkWindow({ initialSlug }: WorkWindowProps) {
-  const initialProject =
-    initialSlug && projects.find((p) => p.slug === initialSlug)
-      ? projects.find((p) => p.slug === initialSlug)!
-      : projects[0];
+  const firstActiveProject = projects.find((p) => p.status !== "comingSoon");
+  const initialSlugValue =
+    initialSlug && projects.find((p) => p.slug === initialSlug && p.status !== "comingSoon")
+      ? initialSlug
+      : firstActiveProject?.slug ?? projects[0].slug;
 
-  const [selectedProject, setSelectedProject] = useState<Project>(initialProject);
-  const [isVisible, setIsVisible] = useState(true);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeProjectSlug, setActiveProjectSlug] = useState(initialSlugValue);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleSelectProject = (project: Project) => {
-    setIsVisible(false);
-    setSelectedProject(project);
-    // Fade back in after project changes
-    requestAnimationFrame(() => {
-      setIsVisible(true);
-    });
+  // When opened from RecentWindow with a specific slug, navigate to it
+  useEffect(() => {
+    if (initialSlug && projects.find((p) => p.slug === initialSlug && p.status !== "comingSoon")) {
+      setActiveProjectSlug(initialSlug);
+      scrollRef.current?.scrollTo({ top: 0 });
+    }
+  }, [initialSlug]);
+
+  const activeProject = projects.find((p) => p.slug === activeProjectSlug) ?? projects[0];
+
+  const playgroundSlugs = ["personal_site", "solana_trading_alerts"];
+  const sectionLabel = playgroundSlugs.includes(activeProject.slug) ? "Playground" : "Case Studies";
+
+  const handleSelectProject = (project: any) => {
+    setActiveProjectSlug(project.slug);
+    scrollRef.current?.scrollTo({ top: 0 });
   };
 
   return (
@@ -33,18 +42,13 @@ export default function WorkWindow({ initialSlug }: WorkWindowProps) {
       {/* Left navigation rail */}
       <CaseStudyNav
         projects={projects}
-        selectedSlug={selectedProject.slug}
+        selectedSlug={activeProjectSlug}
         onSelectProject={handleSelectProject}
       />
 
-      {/* Right content pane - key forces remount with scroll at 0 */}
-      <div
-        key={selectedProject.slug}
-        ref={scrollContainerRef}
-        style={{ opacity: isVisible ? 1 : 0, transition: 'opacity 0.2s' }}
-        className="flex-1 overflow-y-auto bg-[var(--surface)]"
-      >
-        <CaseStudyDetail project={selectedProject} />
+      {/* Right content pane - single case study */}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[var(--surface)]">
+        <CaseStudyDetail project={activeProject} sectionLabel={sectionLabel} />
       </div>
     </div>
   );

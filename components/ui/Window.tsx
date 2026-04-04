@@ -7,6 +7,7 @@ import { ScrollContainerProvider } from "@/hooks/ScrollContainerContext";
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 200;
 const SAFE_MARGIN = 20;
+const HEADER_VISIBLE_PX = 40;
 
 interface WindowProps {
   id: string;
@@ -42,8 +43,13 @@ export default function Window({
   const [size, setSize] = useState(defaultSize);
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const latestPositionRef = useRef(position);
+  latestPositionRef.current = position;
+  const sizeRef = useRef(size);
+  sizeRef.current = size;
   const resizeStartRef = useRef({ mouseX: 0, mouseY: 0, width: 0, height: 0 });
   const headerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -66,15 +72,48 @@ export default function Window({
     if (!isDragging) return;
 
     const onMove = (e: MouseEvent) => {
-      const next = {
-        x: e.clientX - dragOffsetRef.current.x,
-        y: e.clientY - dragOffsetRef.current.y,
-      };
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const w = sizeRef.current.width;
+
+      // Constrain so at least HEADER_VISIBLE_PX of the header stays in viewport
+      const x = Math.max(
+        -(w - HEADER_VISIBLE_PX),
+        Math.min(e.clientX - dragOffsetRef.current.x, vw - HEADER_VISIBLE_PX)
+      );
+      const y = Math.max(
+        0,
+        Math.min(e.clientY - dragOffsetRef.current.y, vh - HEADER_VISIBLE_PX)
+      );
+
+      const next = { x, y };
       setPosition(next);
       onPositionChange(next);
     };
 
-    const onUp = () => setIsDragging(false);
+    const onUp = () => {
+      setIsDragging(false);
+
+      // Safety net: snap back if header ended up outside viewport
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const pos = latestPositionRef.current;
+      const w = sizeRef.current.width;
+
+      const x = Math.max(
+        -(w - HEADER_VISIBLE_PX),
+        Math.min(pos.x, vw - HEADER_VISIBLE_PX)
+      );
+      const y = Math.max(0, Math.min(pos.y, vh - HEADER_VISIBLE_PX));
+
+      if (x !== pos.x || y !== pos.y) {
+        setIsAnimating(true);
+        const snapped = { x, y };
+        setPosition(snapped);
+        onPositionChange(snapped);
+        setTimeout(() => setIsAnimating(false), 300);
+      }
+    };
 
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", onUp);
@@ -83,6 +122,23 @@ export default function Window({
       document.removeEventListener("mouseup", onUp);
     };
   }, [isDragging, onPositionChange]);
+
+  // ── Sync external position changes (e.g. dock recenter) ────────────────
+
+  const prevDefaultRef = useRef(defaultPosition);
+
+  React.useEffect(() => {
+    if (
+      !isDragging &&
+      (defaultPosition.x !== prevDefaultRef.current.x ||
+        defaultPosition.y !== prevDefaultRef.current.y)
+    ) {
+      setIsAnimating(true);
+      setPosition(defaultPosition);
+      setTimeout(() => setIsAnimating(false), 300);
+    }
+    prevDefaultRef.current = defaultPosition;
+  }, [defaultPosition.x, defaultPosition.y, isDragging]);
 
   // ── Resize ────────────────────────────────────────────────────────────────
 
@@ -147,6 +203,9 @@ export default function Window({
         width: `${size.width}px`,
         height: `${size.height}px`,
         zIndex,
+        transition: isAnimating
+          ? "left 0.3s ease-out, top 0.3s ease-out"
+          : undefined,
       }}
       onMouseDown={onFocus}
       className="absolute cursor-default"

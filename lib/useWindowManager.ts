@@ -4,7 +4,7 @@ export type WindowRole = "launcher" | "case-study" | "workspace";
 
 export interface WindowState {
   id: string;
-  type: "about" | "ask" | "project" | "recent" | "work";
+  type: "about" | "ask" | "recent" | "work" | "how-i-think";
   role: WindowRole;
   title: string;
   data?: any;
@@ -66,6 +66,8 @@ const getSizeForType = (type: WindowState["type"], role: WindowRole) => {
       return { width: PRIMARY_WIDTH, height: 520 };
     case "work":
       return { width: WORK_WIDTH, height: WORK_HEIGHT };
+    case "how-i-think":
+      return { width: 820, height: 600 };
     default:
       return CASE_STUDY_SIZE;
   }
@@ -111,6 +113,16 @@ const getPositionForRole = (
     );
   }
 
+  if (type === "how-i-think") {
+    const vw = typeof window !== "undefined" ? window.innerWidth : 1440;
+    const vh = typeof window !== "undefined" ? window.innerHeight : 900;
+    return clamp(
+      Math.round((vw - size.width) / 2),
+      Math.round((vh - size.height) / 2),
+      size
+    );
+  }
+
   // Case study: cascade diagonally from the launcher's right edge, clamped to viewport
   return clamp(
     CASE_STUDY_BASE_X + caseStudyIndex * CASCADE_OFFSET.x,
@@ -128,13 +140,13 @@ export const useWindowManager = create<WindowManagerStore>((set) => ({
       const nextZ =
         state.windows.reduce((maxZ, w) => Math.max(maxZ, w.zIndex), 40) + 1;
 
-      // Work window is a singleton workspace
+      // Work window is a singleton workspace — update slug and bring to front if already open
       if (type === "work") {
         const existing = state.windows.find((w) => w.type === "work");
         if (existing) {
           return {
             windows: state.windows.map((w) =>
-              w.id === existing.id ? { ...w, zIndex: nextZ } : w
+              w.id === existing.id ? { ...w, zIndex: nextZ, data } : w
             ),
           };
         }
@@ -176,8 +188,8 @@ export const useWindowManager = create<WindowManagerStore>((set) => ({
         return { windows: [...state.windows, newWindow] };
       }
 
-      // Non-project, non-recent windows are singletons too (about, ask)
-      if (type !== "project") {
+      // Non-recent windows are singletons too (about, ask)
+      if (type !== "recent") {
         const existing = state.windows.find((w) => w.type === type);
         if (existing) {
           return {
@@ -203,33 +215,6 @@ export const useWindowManager = create<WindowManagerStore>((set) => ({
         };
       }
 
-      // Project windows: deduplicate by slug — focus existing if already open
-      const existingProject = state.windows.find(
-        (w) => w.type === "project" && w.data?.slug === data?.slug
-      );
-      if (existingProject) {
-        return {
-          windows: state.windows.map((w) =>
-            w.id === existingProject.id ? { ...w, zIndex: nextZ } : w
-          ),
-        };
-      }
-
-      const size = getSizeForType("project", "case-study");
-      const newWindow: WindowState = {
-        id: generateId(),
-        type: "project",
-        role: "case-study",
-        title,
-        data,
-        position: getPositionForRole("case-study", "project", state.caseStudyCount, size),
-        size,
-        zIndex: nextZ,
-      };
-      return {
-        windows: [...state.windows, newWindow],
-        caseStudyCount: state.caseStudyCount + 1,
-      };
     }),
 
   closeWindow: (id) =>
