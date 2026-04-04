@@ -137,13 +137,24 @@ export default function HowIThinkWindow() {
   const panelDivider = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
   const lineColor = "var(--text-primary)";
 
+  const [windowWidth, setWindowWidth] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isNarrow = windowWidth < 900;
+
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex", overflow: "hidden", minHeight: 0 }}>
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: isNarrow ? "column" : "row", overflow: "hidden", minHeight: 0 }}>
 
       {/* ── Left: editorial nav panel with grid system ────────────────────────────────── */}
       <div
         style={{
-          width: "42%",
+          width: isNarrow ? "100%" : "42%",
           minWidth: 210,
           flexShrink: 0,
           padding: "28px 28px 28px 24px",
@@ -152,6 +163,7 @@ export default function HowIThinkWindow() {
           gridAutoRows: "16px",
           gap: "0 12px",
           alignContent: "center",
+          overflow: isNarrow ? "auto" : undefined,
         }}
       >
         {/* Spine column */}
@@ -391,39 +403,27 @@ export default function HowIThinkWindow() {
               fill="var(--text-primary)"
               style={{ transition: "fill 0.3s ease" }}
             />
-          </svg>
 
-          {/* Centre text overlay */}
-          <div
-            style={{
-              position: "absolute",
-              left: `${(CX / VW) * 100}%`,
-              top: `${(CY / VH) * 100}%`,
-              width: `${((CENTRE_R * 2) / VW) * 100}%`,
-              aspectRatio: "1 / 1",
-              transform: "translate(-50%, -50%)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center",
-              padding: "10%",
-              pointerEvents: "none",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "clamp(16px, 2.4vw, 28px)",
-                lineHeight: 1.3,
-                color: centreTextColor,
-                fontWeight: 600,
-                letterSpacing: "-0.02em",
-                whiteSpace: "pre-line",
-                transition: "color 0.3s ease",
-              }}
+            {/* Centre text - inside SVG */}
+            <text
+              x={CX}
+              y={CY}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize="20"
+              fontFamily="system-ui, -apple-system, sans-serif"
+              fontWeight="500"
+              letterSpacing="-0.01em"
+              fill={centreTextColor}
+              style={{ transition: "fill 0.3s ease", whiteSpace: "pre-line", lineHeight: 1.3 }}
             >
-              {CENTRE_TEXT}
-            </p>
-          </div>
+              {CENTRE_TEXT.split("\n").map((line, i) => (
+                <tspan key={i} x={CX} dy={i === 0 ? "-1.5em" : "1.3em"}>
+                  {line}
+                </tspan>
+              ))}
+            </text>
+          </svg>
         </div>
       </div>
     </div>
