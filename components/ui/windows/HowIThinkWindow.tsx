@@ -130,9 +130,9 @@ export default function HowIThinkWindow() {
 
   const orbitStroke = isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.1)";
   const dotActive = "var(--text-primary)";
-  const dotInactive = isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
+  const dotInactive = isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)";
   const lblActive = "var(--text-primary)";
-  const lblInactive = isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.5)";
+  const lblInactive = isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.65)";
   const centreTextColor = isDark ? "#181818" : "#ffffff";
   const panelDivider = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
   const lineColor = "var(--text-primary)";
@@ -265,7 +265,7 @@ export default function HowIThinkWindow() {
                     fontSize: "clamp(12px, 1.2vw, 14px)",
                     lineHeight: 1.35,
                     letterSpacing: "-0.08px",
-                    color: "rgba(0,0,0,0.6)",
+                    color: isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.85)",
                     marginTop: 14,
                     marginBottom: 0,
                   }}
@@ -365,11 +365,11 @@ export default function HowIThinkWindow() {
                       y={lbl.y}
                       textAnchor={labelAnchor(node.angle)}
                       dominantBaseline="middle"
-                      fontSize="18"
+                      fontSize="20"
                       fontFamily="var(--font-geist-mono), monospace"
-                      letterSpacing="0.12em"
+                      letterSpacing="0.14em"
                       fill={isActive ? lblActive : lblInactive}
-                      fontWeight="600"
+                      fontWeight="700"
                       style={{
                         textTransform: "uppercase",
                         transition: "fill 0.22s ease",
