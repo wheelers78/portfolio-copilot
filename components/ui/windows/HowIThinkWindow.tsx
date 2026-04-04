@@ -79,12 +79,14 @@ export default function HowIThinkWindow() {
   const [activeId, setActiveId] = useState<string>("systems");
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(false);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   const spinGroupRef = useRef<SVGGElement>(null);
   const labelRefs = useRef<(SVGTextElement | null)[]>([]);
   const rafRef = useRef<number>(0);
   const rotationRef = useRef(0);
   const lastTimeRef = useRef<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const activeNode = NODES.find((n) => n.id === activeId)!;
   const activeIndex = NODES.findIndex((n) => n.id === activeId);
@@ -137,19 +139,25 @@ export default function HowIThinkWindow() {
   const panelDivider = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
   const lineColor = "var(--text-primary)";
 
-  const [windowWidth, setWindowWidth] = React.useState<number>(0);
+  // Watch container width for responsive stacking
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      if (entries[0]) {
+        setContainerWidth(entries[0].contentRect.width);
+      }
+    });
 
-  React.useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
-  const isNarrow = windowWidth < 900;
+  const isNarrow = containerWidth < 700;
 
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: isNarrow ? "column" : "row", overflow: "hidden", minHeight: 0 }}>
+    <div ref={containerRef} style={{ width: "100%", height: "100%", display: "flex", flexDirection: isNarrow ? "column" : "row", overflow: "hidden", minHeight: 0 }}>
 
       {/* ── Left: editorial nav panel with grid system ────────────────────────────────── */}
       <div
