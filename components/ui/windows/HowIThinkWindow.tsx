@@ -59,7 +59,7 @@ const CY = 470;
 const CENTRE_R = 158;
 const ORBIT_R = 400;
 const LABEL_R = 438;
-const NODE_R = 6;
+const NODE_R = 8;
 const REVOLUTION_MS = 120000;
 
 function svgPos(angleDeg: number, r: number) {
@@ -130,9 +130,9 @@ export default function HowIThinkWindow() {
 
   const orbitStroke = isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.1)";
   const dotActive = "var(--text-primary)";
-  const dotInactive = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)";
+  const dotInactive = isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
   const lblActive = "var(--text-primary)";
-  const lblInactive = isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.22)";
+  const lblInactive = isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.5)";
   const centreTextColor = isDark ? "#181818" : "#ffffff";
   const panelDivider = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
   const lineColor = "var(--text-primary)";
@@ -365,11 +365,11 @@ export default function HowIThinkWindow() {
                       y={lbl.y}
                       textAnchor={labelAnchor(node.angle)}
                       dominantBaseline="middle"
-                      fontSize="11"
+                      fontSize="18"
                       fontFamily="var(--font-geist-mono), monospace"
-                      letterSpacing="0.06em"
+                      letterSpacing="0.12em"
                       fill={isActive ? lblActive : lblInactive}
-                      fontWeight="400"
+                      fontWeight="600"
                       style={{
                         textTransform: "uppercase",
                         transition: "fill 0.22s ease",
@@ -411,11 +411,11 @@ export default function HowIThinkWindow() {
           >
             <p
               style={{
-                fontSize: "clamp(10px, 1.2vw, 16px)",
-                lineHeight: 1.25,
+                fontSize: "clamp(16px, 2.4vw, 28px)",
+                lineHeight: 1.3,
                 color: centreTextColor,
-                fontWeight: 500,
-                letterSpacing: "-0.025em",
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
                 whiteSpace: "pre-line",
                 transition: "color 0.3s ease",
               }}
