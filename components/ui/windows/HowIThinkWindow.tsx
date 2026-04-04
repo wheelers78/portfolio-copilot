@@ -58,7 +58,7 @@ const CX = 500;
 const CY = 470;
 const CENTRE_R = 185;
 const ORBIT_R = 400;
-const LABEL_R = 438;
+const LABEL_R = 480;
 const NODE_R = 8;
 const REVOLUTION_MS = 120000;
 
@@ -299,6 +299,7 @@ export default function HowIThinkWindow() {
       </div>
 
       {/* ── Right: orbit diagram ──────────────────────────────────────── */}
+      {!isNarrow && (
       <div
         style={{
           flex: 1,
@@ -434,6 +435,7 @@ export default function HowIThinkWindow() {
           </svg>
         </div>
       </div>
+      )}
     </div>
   );
 }
