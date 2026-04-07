@@ -80,6 +80,7 @@
   --glass-reflex-dark: 1;
   --nav-item-active-bg: rgba(0, 0, 0, 0.08);
   --nav-item-hover-bg: rgba(0, 0, 0, 0.04);
+  --mobile-nav-bg: rgba(255, 255, 255, 0.88);
 }
 
 [data-theme="dark"] {
@@ -112,6 +113,7 @@
   --window-header-muted: #8b8b8b;
   --window-overlay: rgba(0, 0, 0, 0.88);
   --glass-surface-dark: rgba(15, 15, 15, 0.72);
+  --mobile-nav-bg: rgba(15, 15, 15, 0.88);
   --glass-surface-dark-strong: rgba(10, 10, 10, 0.82);
   --glass-border-dark: rgba(255, 255, 255, 0.08);
   --nav-item-active-bg: rgba(255, 255, 255, 0.12);

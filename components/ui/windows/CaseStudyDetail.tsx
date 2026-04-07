@@ -10,9 +10,11 @@ import { FadeInUp } from "@/components/ui/FadeInUp";
 interface CaseStudyDetailProps {
   project: Project;
   sectionLabel: string;
+  isMobile?: boolean;
 }
 
-export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDetailProps) {
+export default function CaseStudyDetail({ project, sectionLabel, isMobile = false }: CaseStudyDetailProps) {
+  const sidePad = isMobile ? '24px' : '80px';
   // All projects: use second image as hero background, third onwards as content
   const heroImage = project.images?.[1];
   const remainingImages = project.images?.slice(2) || [];
@@ -44,8 +46,8 @@ export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDeta
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                paddingLeft: '80px',
-                paddingRight: '80px',
+                paddingLeft: sidePad,
+                paddingRight: sidePad,
                 overflow: 'hidden',
               }}
             >
@@ -84,9 +86,9 @@ export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDeta
                   className="text-white font-normal"
                   style={{
                     fontFamily: 'Figtree, sans-serif',
-                    fontSize: '47.99px',
+                    fontSize: isMobile ? '32px' : '47.99px',
                     letterSpacing: '-0.48px',
-                    lineHeight: '62.39px',
+                    lineHeight: isMobile ? '40px' : '62.39px',
                     marginTop: '-1px',
                   }}
                 >
@@ -98,7 +100,7 @@ export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDeta
 
           {/* SECTION B: Intro blocks — one <p> per entry; omit field to hide section */}
           {project.introBlocks && project.introBlocks.length > 0 && (
-            <div style={{ paddingLeft: '80px', paddingRight: '80px', paddingTop: '64px', paddingBottom: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ paddingLeft: sidePad, paddingRight: sidePad, paddingTop: '64px', paddingBottom: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {project.introBlocks.map((block, i) => (
                 <p
                   key={i}
@@ -119,7 +121,7 @@ export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDeta
 
           {/* SECTION C: Meta fields — add/remove/relabel columns freely; omit field to hide section */}
           {project.metaFields && project.metaFields.length > 0 && (
-            <div style={{ paddingLeft: '80px', paddingRight: '80px', paddingTop: '16px', paddingBottom: '16px' }}>
+            <div style={{ paddingLeft: sidePad, paddingRight: sidePad, paddingTop: '16px', paddingBottom: '16px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 {project.metaFields.map((field, i) => (
                   <div
@@ -159,7 +161,7 @@ export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDeta
 
           {/* SECTION D: Image section */}
           {remainingImages.length > 0 && (
-            <div className="px-12 py-8">
+            <div className="py-8" style={{ paddingLeft: sidePad, paddingRight: sidePad }}>
               <div className="space-y-6">
                 {remainingImages.map((src, i) => (
                   <FadeInUp key={i} delay={i * 0.1}>
@@ -178,7 +180,7 @@ export default function CaseStudyDetail({ project, sectionLabel }: CaseStudyDeta
 
           {/* Content sections — driven by data; add/remove/reorder in projects.ts */}
           {project.contentSections?.map((section, i) => (
-            <div key={i} style={{ paddingLeft: '80px', paddingRight: '80px', marginBottom: '32px' }}>
+            <div key={i} style={{ paddingLeft: sidePad, paddingRight: sidePad, marginBottom: '32px' }}>
               <CaseStudySection
                 label={section.label}
                 content={section.content}

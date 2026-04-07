@@ -7,6 +7,8 @@ import TopNav from "@/components/ui/TopNav";
 import HeroSection from "@/components/ui/hero/HeroSection";
 import Dock from "@/components/ui/Dock";
 import WindowRenderer from "@/components/ui/WindowRenderer";
+import MobileNav from "@/components/ui/MobileNav";
+import MobilePanelRenderer from "@/components/ui/MobilePanelRenderer";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import BackgroundToggle from "@/components/ui/BackgroundToggle";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
@@ -41,6 +43,7 @@ export default function BaseCanvas() {
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
   const [showBackground, setShowBackground] = React.useState(true);
   const [time, setTime] = React.useState("");
+  const [mobileActivePanel, setMobileActivePanel] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     // Start loading sequence on client-side only (after hydration)
@@ -109,10 +112,20 @@ export default function BaseCanvas() {
           headline={headlines[activeTab]}
           isInitialLoad={loading}
         />
+        {/* Desktop navigation */}
         <Dock isInitialLoad={loading} />
         <WindowRenderer />
+
+        {/* Mobile navigation */}
+        <MobileNav
+          activePanel={mobileActivePanel}
+          onSelect={setMobileActivePanel}
+          isInitialLoad={loading}
+        />
+        <MobilePanelRenderer activePanel={mobileActivePanel} onClose={() => setMobileActivePanel(null)} />
+
         <motion.div
-          className="absolute bottom-5 left-6 md:left-8 lg:left-10 z-30 flex flex-col gap-2 items-start"
+          className="absolute left-6 md:left-8 lg:left-10 z-30 flex flex-col gap-2 items-start bottom-[84px] md:bottom-5"
           initial={loading ? undefined : { opacity: 0, translateY: 12 }}
           animate={{ opacity: 1, translateY: 0 }}
           transition={
@@ -129,6 +142,7 @@ export default function BaseCanvas() {
           <ThemeToggle theme={theme} onToggle={handleToggleTheme} />
         </motion.div>
         <footer
+          className="hidden md:block"
           style={{
             position: "absolute",
             bottom: 0,

@@ -54,8 +54,8 @@ export default function LondonStatus({
 
   return (
     <div className="font-mono flex items-center gap-3.5 text-right">
-      <span>{greeting}</span>
-      <span>{location}</span>
+      <span className="hidden md:inline">{greeting}</span>
+      <span className="hidden md:inline">{location}</span>
       <span>
         {hours}
         <span

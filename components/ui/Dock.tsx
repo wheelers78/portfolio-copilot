@@ -79,7 +79,7 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
           ? { duration: 0.28, delay: 0.18, ease: "easeOut" }
           : { duration: 0.8, delay: 1.8, ease: [0.22, 1, 0.36, 1] }
       }
-      className="absolute bottom-16 left-1/2 z-30 -translate-x-1/2"
+      className="hidden md:block absolute bottom-16 left-1/2 z-30 -translate-x-1/2"
     >
       <div className={styles.container}>
         {dockItems.map((item) => {
