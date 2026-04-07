@@ -125,7 +125,7 @@ export default function BaseCanvas() {
         <MobilePanelRenderer activePanel={mobileActivePanel} onClose={() => setMobileActivePanel(null)} />
 
         <motion.div
-          className="absolute left-6 md:left-8 lg:left-10 z-30 flex flex-col gap-2 items-start bottom-[84px] md:bottom-5"
+          className="absolute left-6 md:left-8 lg:left-10 z-30 flex flex-col gap-2 items-start bottom-[100px] md:bottom-5"
           initial={loading ? undefined : { opacity: 0, translateY: 12 }}
           animate={{ opacity: 1, translateY: 0 }}
           transition={
