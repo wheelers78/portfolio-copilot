@@ -189,32 +189,29 @@ export const useWindowManager = create<WindowManagerStore>((set) => ({
       }
 
       // Non-recent windows are singletons too (about, ask)
-      if (type !== "recent") {
-        const existing = state.windows.find((w) => w.type === type);
-        if (existing) {
-          return {
-            windows: state.windows.map((w) =>
-              w.id === existing.id ? { ...w, zIndex: nextZ } : w
-            ),
-          };
-        }
-        const size = getSizeForType(type, "case-study");
-        const newWindow: WindowState = {
-          id: generateId(),
-          type,
-          role: "case-study",
-          title,
-          data,
-          position: getPositionForRole("case-study", type, state.caseStudyCount, size),
-          size,
-          zIndex: nextZ,
-        };
+      const existing = state.windows.find((w) => w.type === type);
+      if (existing) {
         return {
-          windows: [...state.windows, newWindow],
-          caseStudyCount: state.caseStudyCount + 1,
+          windows: state.windows.map((w) =>
+            w.id === existing.id ? { ...w, zIndex: nextZ } : w
+          ),
         };
       }
-
+      const size = getSizeForType(type, "case-study");
+      const newWindow: WindowState = {
+        id: generateId(),
+        type,
+        role: "case-study",
+        title,
+        data,
+        position: getPositionForRole("case-study", type, state.caseStudyCount, size),
+        size,
+        zIndex: nextZ,
+      };
+      return {
+        windows: [...state.windows, newWindow],
+        caseStudyCount: state.caseStudyCount + 1,
+      };
     }),
 
   closeWindow: (id) =>
