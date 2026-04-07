@@ -12,7 +12,7 @@ interface TabPosition {
   width: number;
 }
 
-const tabs = ["About", "How I work", "Experience"];
+const tabs = ["About", "Experience"];
 
 function AboutContent() {
   return (
@@ -111,23 +111,42 @@ function ExperienceContent() {
     setHoveredIndex(i);
   };
 
-  const experiences = [
+  const experiences: {
+    company: string;
+    role: string;
+    paragraphs?: string[];
+    items?: string[];
+    isBulletList?: boolean;
+    hoverImage: string;
+  }[] = [
     {
       company: "WGSN",
       role: "Product Design Lead",
-      impact: "Lead design across four engineering squads — from zero to shipped on platform features used by global trend forecasters.",
+      paragraphs: [
+        "As Lead Product Designer at WGSN, I shape product direction and design execution across multiple squads — delivering platform improvements and new features from concept through to launch.",
+        "I founded and scaled a company-wide design system, improving consistency and accelerating delivery across design and engineering. My focus is making complex platforms feel clear and usable — aligning product, engineering, and business goals to real user needs.",
+        "More recently, I’ve been integrating AI into the workflow — speeding up design handoff while exploring how agentic systems can connect design directly to code.",
+      ],
       hoverImage: "Experience_WGSN.png",
     },
     {
       company: "SEDNA",
       role: "Design Lead",
-      impact: "Co-led and mentored a team of seven, building a culture of craft, experimentation, and design excellence.",
+      paragraphs: [
+        "At SEDNA, I co-led and mentored a team of seven product designers — raising the bar on craft and collaboration.",
+        "I introduced DesignOps and scalable workflows, strengthening the connection between design and engineering.",
+        "I built and launched a design system that improved consistency and delivery speed, while aligning product outcomes with user needs and business goals.",      
+      ],
       hoverImage: "Experience_Sedna.png",
     },
     {
-      company: "MiQ",
+      company: "MIQ",
       role: "Product Design Lead",
-      impact: "Built a six-person team and moved the design practice from executional to strategic across global offices.",
+      paragraphs: [
+        "At MiQ, I helped shift design from execution to strategy.",
+        "I built and mentored a six-person team, introduced design thinking, and strengthened collaboration across global teams.",
+        "I created a global design system that improved consistency and speed, helping connect creative, technical, and business goals.",
+      ],
       hoverImage: "Experience_MiQ.png",
     },
   ];
@@ -135,7 +154,7 @@ function ExperienceContent() {
   const allBrands = [
     { name: "wgsn", alt: "WGSN" },
     { name: "sedna", alt: "SEDNA" },
-    { name: "miq", alt: "MiQ" },
+    { name: "miq", alt: "MIQ" },
     { name: "berghaus", alt: "Berghaus" },
     { name: "canterbury", alt: "Canterbury" },
     { name: "ellesse", alt: "Ellesse" },
@@ -161,15 +180,40 @@ function ExperienceContent() {
               onMouseMove={handleMouseMove}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="flex items-baseline justify-between gap-4 mb-1">
-                <p className="text-[15px] font-medium text-[var(--text-primary)] tracking-tight">
+              <div className="flex items-baseline justify-between gap-4 mb-2">
+                <p className="text-[12px] font-mono font-regular text-[var(--text-muted)] tracking-tight">
                   {exp.company}
                 </p>
-                <p className="text-[12px] text-[var(--text-muted)] shrink-0">{exp.role}</p>
+                
               </div>
-              <p className="text-[13px] leading-relaxed text-[var(--text-muted)]">
-                {exp.impact}
-              </p>
+              <p className="text-[24px] font-medium text-[var(--text-primary)] shrink-0 tracking-tight">{exp.role}</p>
+              {exp.paragraphs && exp.paragraphs.length > 0 && (
+                <div className="space-y-3 mt-1">
+                  {exp.paragraphs.map((p, pi) => (
+                    <p key={pi} className="text-[13px] leading-relaxed text-[var(--text-primary)]">{p}</p>
+                  ))}
+                </div>
+              )}
+              {exp.items && exp.items.length > 0 && (
+                <div className="mt-1">
+                  {exp.isBulletList ? (
+                    <ul className="space-y-1">
+                      {exp.items.map((item, ii) => (
+                        <li key={ii} className="flex items-start gap-2 text-[13px] leading-relaxed text-[var(--text-primary)]">
+                          <div className="flex-shrink-0 w-1 h-1 mt-[9px]" style={{ backgroundColor: "var(--text-primary)" }} />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="space-y-1">
+                      {exp.items.map((item, ii) => (
+                        <p key={ii} className="text-[13px] leading-relaxed text-[var(--text-primary)]">{item}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Inline image fallback for touch/small screens */}
               <div

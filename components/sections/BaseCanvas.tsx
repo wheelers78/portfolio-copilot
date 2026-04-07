@@ -149,7 +149,7 @@ export default function BaseCanvas() {
               opacity: 0.6,
             }}
           >
-            Built with Claude, Cursor & Figma
+            Designed & built with AI — Claude, Cursor, Figma
           </span>
         </footer>
       </CanvasLayout>

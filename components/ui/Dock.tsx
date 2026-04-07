@@ -90,13 +90,6 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
             </button>
           );
         })}
-        <button
-          type="button"
-          onClick={() => handleClick("how-i-think", "How I Think")}
-          className={`${styles.button} ${getWindow("how-i-think") ? styles.active : styles.inactive}`}
-        >
-          How I Think
-        </button>
       </div>
     </motion.div>
   );

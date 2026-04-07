@@ -52,14 +52,14 @@ const TICK_POSITIONS = [9504, 9631, 9727, 9823, 9919, 10015, 10111, 10207, 10303
 
 // ─── SVG geometry ─────────────────────────────────────────────────────────────
 
-const VW = 1000;
-const VH = 940;
-const CX = 500;
-const CY = 470;
-const CENTRE_R = 185;
-const ORBIT_R = 400;
-const LABEL_R = 480;
-const NODE_R = 8;
+const VW = 900;
+const VH = 860;
+const CX = 450;
+const CY = 430;
+const CENTRE_R = 160;
+const ORBIT_R = 240;
+const LABEL_R = 380;
+const NODE_R = 10;
 const REVOLUTION_MS = 120000;
 
 function svgPos(angleDeg: number, r: number) {
@@ -163,14 +163,14 @@ export default function HowIThinkWindow() {
       <div
         style={{
           width: isNarrow ? "100%" : "42%",
-          minWidth: 210,
+          minWidth: 224,
           flexShrink: 0,
           padding: "28px 28px 28px 24px",
           display: "grid",
           gridTemplateColumns: "40px 1fr",
           gridAutoRows: "16px",
           gap: "0 12px",
-          alignContent: "center",
+          alignContent: "start",
           overflow: isNarrow ? "auto" : undefined,
         }}
       >
@@ -190,10 +190,10 @@ export default function HowIThinkWindow() {
                 key={`tick-${node.id}`}
                 style={{
                   position: "absolute",
-                  left: 9,
+                  left: 8,
                   top: `calc(${idx * 5} * 16px + 8px - 2px)`,
                   height: 1,
-                  width: isActive ? 24 : 14,
+                  width: isActive ? 24 : 8,
                   backgroundColor: lineColor,
                   transition: "width 0.22s ease",
                 }}
@@ -212,8 +212,8 @@ export default function HowIThinkWindow() {
                       left: 9,
                       top: `calc(${idx * 5 + i} * 16px + 8px - 2px)`,
                       height: 1,
-                      width: 14,
-                      backgroundColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)",
+                      width: 8,
+                      backgroundColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
                     }}
                   />
                 ))
@@ -224,7 +224,6 @@ export default function HowIThinkWindow() {
         {/* Content items */}
         {NODES.map((node, idx) => {
           const isActive = node.id === activeId;
-          const isHovered = node.id === hoverId;
           return (
             <button
               key={node.id}
@@ -247,15 +246,15 @@ export default function HowIThinkWindow() {
               {/* Label */}
               <motion.p
                 animate={{
-                  fontSize: isActive ? "clamp(22px, 2.8vw, 28px)" : "clamp(15px, 1.9vw, 17px)",
-                  opacity: isActive ? 1 : 0.87,
+                  fontSize: isActive ? "clamp(20px, 2.5vw, 24px)" : "clamp(14px, 1.6vw, 16px)",
+                  fontWeight: isActive ? 500 : 500,
+                  opacity: isActive ? 1 : 0.7,
                 }}
-                transition={{ duration: 0.22, ease: "easeInOut" }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
                 style={{
-                  fontFamily: "Figtree, -apple-system, sans-serif",
-                  fontWeight: 600,
-                  lineHeight: 1.4,
-                  letterSpacing: "-0.5px",
+                  fontFamily: "system-ui, -apple-system, sans-serif",
+                  lineHeight: 1.2,
+                  letterSpacing: "-0.3px",
                   color: "var(--text-primary)",
                   marginTop: 0,
                   marginBottom: 0,
@@ -268,7 +267,7 @@ export default function HowIThinkWindow() {
         })}
 
         {/* Description text spans multiple rows */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {NODES.map((node, idx) => {
             const isActive = node.id === activeId;
             return (
@@ -278,16 +277,17 @@ export default function HowIThinkWindow() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                   style={{
                     gridColumn: "2",
                     gridRow: `${idx * 5 + 2} / span 4`,
-                    fontSize: "clamp(12px, 1.2vw, 14px)",
-                    lineHeight: 1.35,
-                    letterSpacing: "-0.08px",
-                    color: isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.85)",
-                    marginTop: 14,
+                    fontSize: "clamp(13px, 1.1vw, 14px)",
+                    lineHeight: 1.5,
+                    letterSpacing: "-0.02px",
+                    color: isDark ? "rgba(255,255,255,0.68)" : "rgba(0,0,0,0.72)",
+                    marginTop: 8,
                     marginBottom: 0,
+                    fontWeight: 400,
                   }}
                 >
                   {node.copy}
@@ -307,7 +307,7 @@ export default function HowIThinkWindow() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: 12,
+          padding: 8,
           backgroundColor: "transparent",
         }}
       >
@@ -375,23 +375,23 @@ export default function HowIThinkWindow() {
                     <circle
                       cx={dot.x}
                       cy={dot.y}
-                      r={isActive ? NODE_R + 1.5 : NODE_R}
+                      r={isActive ? NODE_R + 1.50 : NODE_R}
                       fill={isActive ? dotActive : dotInactive}
                       style={{ transition: "fill 0.22s ease" }}
                     />
 
-                    {/* Label — uppercase, mono */}
+                    {/* Label — clean sans-serif */}
                     <text
                       ref={(el) => { labelRefs.current[i] = el; }}
                       x={lbl.x}
                       y={lbl.y}
                       textAnchor={labelAnchor(node.angle)}
                       dominantBaseline="middle"
-                      fontSize="23"
-                      fontFamily="var(--font-geist-mono), monospace"
-                      letterSpacing="0.16em"
+                      fontSize="15"
+                      fontFamily="var(--font-geist), system-ui, -apple-system, sans-serif"
+                      letterSpacing="-0.02em"
                       fill={isActive ? lblActive : lblInactive}
-                      fontWeight="500"
+                      fontWeight="400"
                       style={{
                         textTransform: "uppercase",
                         transition: "fill 0.22s ease",
@@ -419,9 +419,9 @@ export default function HowIThinkWindow() {
               y={CY}
               textAnchor="middle"
               dominantBaseline="middle"
-              fontSize="20"
+              fontSize="32"
               fontFamily="system-ui, -apple-system, sans-serif"
-              fontWeight="500"
+              fontWeight="400"
               letterSpacing="-0.01em"
               fill={centreTextColor}
               style={{ transition: "fill 0.3s ease", whiteSpace: "pre-line", lineHeight: 1.3 }}

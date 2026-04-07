@@ -119,7 +119,7 @@ export const projects: Project[] = [
     contentSections: [
       {
         label: "Challenge",
-         isBulletList: true,
+        isBulletList: true,
         items: [
         "Translating complex event and cultural insight into clear, usable product experiences",
         "Aligning multiple stakeholders across product, content, and engineering",
@@ -161,9 +161,9 @@ export const projects: Project[] = [
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
-      "How did you approach the discovery research?",
-      "What was the filtering model?",
-      "How did this fit into WGSN's broader platform?",
+      "How did you bring fragmented event content together?",
+      "How did you align product, content, and engineering?",
+      "What role did AI play in your workflow on this project?",
     ],
   },
 
@@ -215,9 +215,9 @@ export const projects: Project[] = [
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
-      "How did you approach the discovery research?",
-      "What was the filtering model?",
-      "How did this fit into WGSN's broader platform?",
+      "How did you design for AI trust and transparency?",
+      "What was the shift from browsing to asking?",
+      "How did you define success for the search experience?",
     ],
   },
 
@@ -271,9 +271,9 @@ export const projects: Project[] = [
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
-      "How did you approach the discovery research?",
-      "What was the filtering model?",
-      "How did this fit into WGSN's broader platform?",
+      "How did you approach the personalisation model?",
+      "What made long-form content easier to engage with?",
+      "How did you balance brevity with depth?",
     ],
   },
 
@@ -327,9 +327,9 @@ export const projects: Project[] = [
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
-      "How did you approach the discovery research?",
-      "What was the filtering model?",
-      "How did this fit into WGSN's broader platform?",
+      "How did you structure high-volume catwalk data?",
+      "How did you connect shows, imagery, and trends in one place?",
+      "What was the challenge of designing for real-time runway intelligence?",
     ],
   },
 
@@ -390,9 +390,9 @@ export const projects: Project[] = [
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
-      "How did you approach the discovery research?",
-      "What was the filtering model?",
-      "How did this fit into WGSN's broader platform?",
+      "How did you reduce cognitive load for high-volume messaging?",
+      "What drove the decision to do a full UI overhaul?",
+      "How did you collaborate with engineering on the design system?",
     ],
   },
 
@@ -454,9 +454,9 @@ export const projects: Project[] = [
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
-      "How did you approach the discovery research?",
-      "What was the filtering model?",
-      "How did this fit into WGSN's broader platform?",
+      "How did you build adoption for the design system?",
+      "What was your approach to the component model?",
+      "How did you align design and engineering around a shared system?",
     ],
   },
 
