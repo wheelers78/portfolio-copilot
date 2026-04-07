@@ -238,9 +238,7 @@ export const projects: Project[] = [
     contentSections: [
       {
         label: "Challenge",
-        content: [
-          "WGSN reports are rich but often long and time-consuming to navigate, making it difficult for users to quickly find relevant insights. This created friction in discovery and limited engagement with valuable content.",
-        ]
+        content: "WGSN reports are rich but often long and time-consuming to navigate, making it difficult for users to quickly find relevant insights. This created friction in discovery and limited engagement with valuable content."
       },
        {
         label: "Approach",
@@ -351,9 +349,7 @@ export const projects: Project[] = [
     contentSections: [
       {
         label: "Challenge",
-        content: [
-        "Teams were managing thousands of messages a day through fragmented, email-like workflows — making it difficult to prioritise, assign ownership, and take action. The UI lacked clarity and structure, increasing cognitive load in already high-pressure environments.",
-        ]
+        content: "Teams were managing thousands of messages a day through fragmented, email-like workflows — making it difficult to prioritise, assign ownership, and take action. The UI lacked clarity and structure, increasing cognitive load in already high-pressure environments."
       },
       {
         label: "Approach",
@@ -414,9 +410,7 @@ export const projects: Project[] = [
     contentSections: [
       {
         label: "Challenge",
-        content: [
-        "Design and development were fragmented, with inconsistent components and duplicated effort across teams. This slowed delivery and made it harder to maintain quality and alignment at scale.",
-        ]
+        content: "Design and development were fragmented, with inconsistent components and duplicated effort across teams. This slowed delivery and made it harder to maintain quality and alignment at scale."
       },
       {
         label: "Approach",
