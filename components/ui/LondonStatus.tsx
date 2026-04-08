@@ -53,9 +53,9 @@ export default function LondonStatus({
   const [hours, minutes] = displayTime.split(":");
 
   return (
-    <div className="font-mono flex items-center gap-3.5 text-right">
+    <div className="font-mono flex items-center gap-2.5 md:gap-3.5 text-right">
       <span className="hidden md:inline">{greeting}</span>
-      <span className="hidden md:inline">{location}</span>
+      <span>{location}</span>
       <span>
         {hours}
         <span

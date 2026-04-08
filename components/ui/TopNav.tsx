@@ -10,7 +10,7 @@ interface TopNavProps {
 export default function TopNav({ time }: TopNavProps) {
   return (
     <div className="pointer-events-none absolute inset-x-6 top-5 z-30 flex items-center justify-between text-[13px] leading-none tracking-[0.01em] text-[var(--text-primary)] md:inset-x-8 lg:inset-x-10">
-      <nav className="pointer-events-auto flex items-center gap-3.5">
+      <nav className="pointer-events-auto flex items-center gap-2.5 md:gap-3.5 whitespace-nowrap">
         <a className="transition-colors hover:text-[var(--text-muted)]" href="#">
           P—W
         </a>
