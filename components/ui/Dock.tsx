@@ -40,7 +40,7 @@ export default function Dock({ isInitialLoad = false }: DockProps) {
     {
       type: "ask",
       label: "Ask",
-      icon: <ColorOrb dimension="20px" tones={{ base: "oklch(22.64% 0 0)" }} />,
+      icon: <ColorOrb dimension="14px" tones={{ base: "oklch(22.64% 0 0)" }} />,
     },
     {
       type: "work",
