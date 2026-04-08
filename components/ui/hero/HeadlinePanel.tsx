@@ -23,7 +23,7 @@ export default function HeadlinePanel({ activeTab, headline, isInitialLoad = fal
   }, [isInitialLoad]);
 
   return (
-    <div className="mt-8 w-full h-auto md:h-[240px] lg:h-[280px] flex items-start">
+    <div className="mt-8 w-full h-[200px] md:h-[240px] lg:h-[280px] flex items-start overflow-hidden">
       <AnimatePresence mode="wait" initial={false}>
         <SplitTextHeading
           key={activeTab}
