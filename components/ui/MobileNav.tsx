@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { CloseFilled } from "@carbon/icons-react";
+import { ColorOrb } from "@/components/ui/ai-input";
 import styles from "./Dock.module.css";
 
 interface MobileNavProps {
@@ -11,10 +12,18 @@ interface MobileNavProps {
   isInitialLoad?: boolean;
 }
 
+const AskOrb = () => (
+  <div style={{ width: 18, height: 18, overflow: "hidden", borderRadius: "50%", flexShrink: 0 }}>
+    <div style={{ transform: "scale(0.5)", transformOrigin: "top left", width: 36, height: 36 }}>
+      <ColorOrb dimension="36px" tones={{ base: "oklch(22.64% 0 0)" }} />
+    </div>
+  </div>
+);
+
 const navItems = [
-  { id: "about", label: "About" },
-  { id: "ask", label: "Ask" },
-  { id: "work", label: "Work" },
+  { id: "about", label: "About", icon: null },
+  { id: "ask", label: "Ask", icon: <AskOrb /> },
+  { id: "work", label: "Work", icon: null },
 ];
 
 export default function MobileNav({
@@ -60,6 +69,7 @@ export default function MobileNav({
                 paddingRight: isActive ? "30px" : undefined,
               }}
             >
+              {item.icon}
               {item.label}
               {isActive && (
                 <span
