@@ -7,7 +7,7 @@ interface FadeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   alt: string;
 }
 
-export default function FadeImage({ src, alt, className = "", style, ...props }: FadeImageProps) {
+export function FadeImage({ src, alt, className = "", style, ...props }: FadeImageProps) {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -25,3 +25,5 @@ export default function FadeImage({ src, alt, className = "", style, ...props }:
     />
   );
 }
+
+export default FadeImage;
