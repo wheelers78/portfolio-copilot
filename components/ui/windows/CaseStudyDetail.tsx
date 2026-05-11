@@ -21,11 +21,11 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
   const remainingImages = project.images?.slice(2) || [];
 
   return (
-    <div className="w-full">
+    <div className="w-full" style={{ background: 'linear-gradient(to bottom, #000 256px, transparent 256px)' }}>
       <AnimatePresence mode="wait">
         <motion.div
           key={project.slug}
-          initial={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
@@ -174,13 +174,12 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
               <div className="space-y-6">
                 {remainingImages.map((src, i) => (
                   <FadeInUp key={i} delay={i * 0.1}>
-                    <div
-                      className="overflow-hidden rounded-lg"
-                      style={{ background: "var(--surface-muted, #f0f0f0)", minHeight: 180 }}
-                    >
+                    <div className="overflow-hidden rounded-lg">
                       <FadeImage
                         src={src}
                         alt={`${project.title} visual ${i + 1}`}
+                        width={project.imageWidth}
+                        height={project.imageHeight}
                         className="w-full h-auto block"
                       />
                     </div>

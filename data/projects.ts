@@ -37,6 +37,7 @@ export interface Project {
   tags: string[];
   related: string[];
   images?: string[];
+  imageWidth?: number;
   imageHeight?: number;
   // Optional overlay colour for the hero image. Accepts any CSS colour value
   // e.g. "rgba(30, 60, 120, 0.6)" or "#1e3c78cc". Defaults to rgba(0,0,0,0.5).
@@ -91,7 +92,8 @@ export const projects: Project[] = [
       "/images/WGSN_Tends_Header.png",
       "/images/WGSN_Trends_Visual_1.png",
     ],
-    imageHeight: 360,
+    imageWidth: 2400,
+    imageHeight: 1864,
     tags: ["Product Design", "Discovery", "WGSN"],
     related: [],
     suggestedQuestions: [
@@ -157,7 +159,8 @@ export const projects: Project[] = [
       "/images/WGSN_Events_5.png",
       "/images/WGSN_Events_6.png",
     ],
-    imageHeight: 360,
+    imageWidth: 2400,
+    imageHeight: 1864,
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
@@ -211,7 +214,8 @@ export const projects: Project[] = [
       "/images/WGSN_Pulse_2.png",
       "/images/WGSN_Pulse_3.png",
     ],
-    imageHeight: 360,
+    imageWidth: 2400,
+    imageHeight: 1864,
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
@@ -265,7 +269,8 @@ export const projects: Project[] = [
       "/images/WGSN_Shorts_3.png",
       "/images/WGSN_Shorts_4.png",
     ],
-    imageHeight: 360,
+    imageWidth: 2400,
+    imageHeight: 1864,
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
@@ -321,7 +326,8 @@ export const projects: Project[] = [
       "/images/WGSN_Catwalks_4.png",
       "/images/WGSN_Catwalks_5.png",
     ],
-    imageHeight: 360,
+    imageWidth: 2400,
+    imageHeight: 1864,
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
@@ -382,7 +388,8 @@ export const projects: Project[] = [
       "/images/Sedna_6.png",
       "/images/Sedna_7.png",
     ],
-    imageHeight: 360,
+    imageWidth: 3200,
+    imageHeight: 1816,
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
@@ -444,7 +451,8 @@ export const projects: Project[] = [
       "/images/Sedna_Harbor_6.png",
       "/images/Sedna_Harbor_7.png",
     ],
-    imageHeight: 360,
+    imageWidth: 3200,
+    imageHeight: 1816,
     tags: ["Product Design", "Discovery", "IA", "WGSN"],
     related: ["pulse-ai", "trends-discovery"],
     suggestedQuestions: [
