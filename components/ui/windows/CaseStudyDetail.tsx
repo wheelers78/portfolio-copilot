@@ -44,7 +44,7 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
                 paddingLeft: sidePad,
                 paddingRight: sidePad,
                 overflow: 'hidden',
-                background: '#1a1a2e',
+                background: '#000',
               }}
             >
               {/* Background image — fades in only once loaded */}
