@@ -31,17 +31,11 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
           transition={{ duration: 0.2 }}
           className="space-y-0"
         >
-          {/* SECTION A: Hero header with background image and text overlay */}
+          {/* SECTION A: Hero — image fades in on load */}
           {heroImage ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+            <div
               className="w-full"
               style={{
-                backgroundImage: `url(${heroImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
                 height: '256px',
                 position: 'relative',
                 display: 'flex',
@@ -52,6 +46,19 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
                 overflow: 'hidden',
               }}
             >
+              {/* Background image — fades in only once loaded */}
+              <FadeImage
+                src={heroImage}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+              />
               {/* Overlay for text readability — colour set via heroOverlayColor in projects.ts */}
               <div
                 className="absolute inset-0"
@@ -96,7 +103,7 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
                   {project.title}
                 </motion.h1>
               </div>
-            </motion.div>
+            </div>
           ) : null}
 
           {/* SECTION B: Intro blocks — one <p> per entry; omit field to hide section */}
