@@ -6,7 +6,7 @@ import { type Project } from "@/data/projects";
 import CaseStudyMeta from "./CaseStudyMeta";
 import CaseStudySection from "./CaseStudySection";
 import { FadeInUp } from "@/components/ui/FadeInUp";
-import FadeImage from "@/components/ui/FadeImage";
+import { FadeImage } from "@/components/ui/FadeImage";
 
 interface CaseStudyDetailProps {
   project: Project;

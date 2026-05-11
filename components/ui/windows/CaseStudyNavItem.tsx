@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { type Project } from "@/data/projects";
 import { ChevronRight } from "lucide-react";
-import FadeImage from "../FadeImage";
+import { FadeImage } from "@/components/ui/FadeImage";
 
 interface CaseStudyNavItemProps {
   project: Project;

@@ -7,6 +7,7 @@ import { projects } from "@/data/projects";
 import { type Project } from "@/data/projects";
 import CaseStudyNav from "./CaseStudyNav";
 import CaseStudyDetail from "./CaseStudyDetail";
+import { FadeImage } from "@/components/ui/FadeImage";
 
 interface WorkWindowProps {
   initialSlug?: string;
@@ -66,7 +67,7 @@ function MobileProjectRow({
               flexShrink: 0,
             }}
           >
-            <img
+            <FadeImage
               src={thumbnail}
               alt={project.title}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}

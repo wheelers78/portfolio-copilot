@@ -3,12 +3,13 @@
   "configurations": [
     {
       "name": "portfolio",
-      "runtimeExecutable": "/Users/paulwhelan/.nvm/versions/node/v20.20.1/bin/node",
+      "runtimeExecutable": "/Users/paulwhelan/.nvm/versions/node/v24.15.0/bin/node",
       "runtimeArgs": ["/Users/paulwhelan/Code/portfolio-copilot/node_modules/next/dist/bin/next", "dev"],
       "port": 3000,
       "autoPort": true,
+      "cwd": ".",
       "env": {
-        "PATH": "/Users/paulwhelan/.nvm/versions/node/v20.20.1/bin:/usr/bin:/bin"
+        "PATH": "/Users/paulwhelan/.nvm/versions/node/v24.15.0/bin:/usr/bin:/bin"
       }
     }
   ]

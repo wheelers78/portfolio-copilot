@@ -6,7 +6,7 @@ import { SplitTextHeading } from "../SplitTextHeading";
 import { BrandLogoRail } from "../brand-logo-rail";
 import { FadeInUp } from "../FadeInUp";
 import { OrbitDiagram } from "../OrbitDiagram";
-import FadeImage from "../FadeImage";
+import { FadeImage } from "@/components/ui/FadeImage";
 
 interface TabPosition {
   left: number;
@@ -257,7 +257,7 @@ function ExperienceContent() {
           className="hidden sm:block"
         >
           {experiences.map((exp, i) => (
-            <img
+            <FadeImage
               key={i}
               src={`/images/${exp.hoverImage}`}
               alt=""
