@@ -25,16 +25,16 @@ const audiences = [
 type Audience = (typeof audiences)[number];
 
 const headlines: Record<Audience, string> = {
-  Everyone: "Hello there — I’m Paul. A designer who likes making complex things feel simple.",
-  Recruiters: "I work across systems, AI, and product — and I’ve spent the last 15+ years turning messy ideas into things that actually ship.",
+  Everyone: "Hello there, I’m Paul. A designer who likes making complex things feel simple.",
+  Recruiters: "I work across systems, AI, and product and I’ve spent the last 15+ years turning messy ideas into things that actually ship.",
   "Design Directors":
     "I care about how things really work. Not just the interface, but the logic, the structure, the system behind it.",
   "Product Designers":
     "From process to pixels, I’ll work with you to shape, refine, and build something we’re proud of.",
   "Product Managers":
-    "I’ll work closely with you — design, product, engineering — to shape it, test it, and make it real.",
+    "I’ll work closely with you, design, product and engineering to shape it, test it, and make it real.",
   Engineers:
-    "I’m pretty technical too. Not an engineer — but I can hold my own, and I like getting into the build.",
+    "I’m pretty technical too. Not an engineer but I can hold my own, and I like getting into the build.",
 };
 
 export default function BaseCanvas() {
