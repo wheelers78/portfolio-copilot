@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { type Project } from "@/data/projects";
 import CaseStudyMeta from "./CaseStudyMeta";
 import CaseStudySection from "./CaseStudySection";
 import { FadeInUp } from "@/components/ui/FadeInUp";
-import { FadeImage } from "@/components/ui/FadeImage";
 
 interface CaseStudyDetailProps {
   project: Project;
@@ -16,9 +16,10 @@ interface CaseStudyDetailProps {
 
 export default function CaseStudyDetail({ project, sectionLabel, isMobile = false }: CaseStudyDetailProps) {
   const sidePad = isMobile ? '24px' : '80px';
-  // All projects: use second image as hero background, third onwards as content
   const heroImage = project.images?.[1];
   const remainingImages = project.images?.slice(2) || [];
+  const [heroLoaded, setHeroLoaded] = useState(false);
+  const [bodyLoaded, setBodyLoaded] = useState<Record<number, boolean>>({});
 
   return (
     <div className="w-full" style={{ background: 'linear-gradient(to bottom, #000 256px, transparent 256px)' }}>
@@ -48,17 +49,18 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
               }}
             >
               {/* Background image — fades in only once loaded */}
-              <FadeImage
+              <Image
                 src={heroImage}
                 alt=""
+                fill
+                sizes="100vw"
                 style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
                   objectFit: 'cover',
                   objectPosition: 'center',
+                  opacity: heroLoaded ? 1 : 0,
+                  transition: 'opacity 0.35s ease',
                 }}
+                onLoad={() => setHeroLoaded(true)}
               />
               {/* Overlay for text readability — colour set via heroOverlayColor in projects.ts */}
               <div
@@ -175,12 +177,20 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
                 {remainingImages.map((src, i) => (
                   <FadeInUp key={i} delay={i * 0.1}>
                     <div className="overflow-hidden rounded-lg">
-                      <FadeImage
+                      <Image
                         src={src}
                         alt={`${project.title} visual ${i + 1}`}
-                        width={project.imageWidth}
-                        height={project.imageHeight}
-                        className="w-full h-auto block"
+                        width={project.imageWidth ?? 2400}
+                        height={project.imageHeight ?? 1864}
+                        sizes="(max-width: 768px) 100vw, 60vw"
+                        style={{
+                          width: '100%',
+                          height: 'auto',
+                          display: 'block',
+                          opacity: bodyLoaded[i] ? 1 : 0,
+                          transition: 'opacity 0.35s ease',
+                        }}
+                        onLoad={() => setBodyLoaded(prev => ({ ...prev, [i]: true }))}
                       />
                     </div>
                   </FadeInUp>
