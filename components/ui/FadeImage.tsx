@@ -19,7 +19,7 @@ export default function FadeImage({ src, alt, className = "", style, ...props }:
       style={{
         ...style,
         opacity: loaded ? 1 : 0,
-        transition: "opacity 0.4s ease",
+        transition: "opacity 0.35s ease",
       }}
       {...props}
     />

@@ -44,6 +44,7 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
                 paddingLeft: sidePad,
                 paddingRight: sidePad,
                 overflow: 'hidden',
+                background: '#1a1a2e',
               }}
             >
               {/* Background image — fades in only once loaded */}
@@ -173,7 +174,10 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
               <div className="space-y-6">
                 {remainingImages.map((src, i) => (
                   <FadeInUp key={i} delay={i * 0.1}>
-                    <div className="overflow-hidden rounded-lg">
+                    <div
+                      className="overflow-hidden rounded-lg"
+                      style={{ background: "var(--surface-muted, #f0f0f0)", minHeight: 180 }}
+                    >
                       <FadeImage
                         src={src}
                         alt={`${project.title} visual ${i + 1}`}
