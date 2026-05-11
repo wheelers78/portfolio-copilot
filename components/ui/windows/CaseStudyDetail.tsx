@@ -6,6 +6,7 @@ import { type Project } from "@/data/projects";
 import CaseStudyMeta from "./CaseStudyMeta";
 import CaseStudySection from "./CaseStudySection";
 import { FadeInUp } from "@/components/ui/FadeInUp";
+import FadeImage from "@/components/ui/FadeImage";
 
 interface CaseStudyDetailProps {
   project: Project;
@@ -166,7 +167,7 @@ export default function CaseStudyDetail({ project, sectionLabel, isMobile = fals
                 {remainingImages.map((src, i) => (
                   <FadeInUp key={i} delay={i * 0.1}>
                     <div className="overflow-hidden rounded-lg">
-                      <img
+                      <FadeImage
                         src={src}
                         alt={`${project.title} visual ${i + 1}`}
                         className="w-full h-auto block"

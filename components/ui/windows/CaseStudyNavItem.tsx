@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { type Project } from "@/data/projects";
 import { ChevronRight } from "lucide-react";
+import FadeImage from "../FadeImage";
 
 interface CaseStudyNavItemProps {
   project: Project;
@@ -28,7 +29,7 @@ export default function CaseStudyNavItem({
       {/* Thumbnail image */}
       {thumbnailImage && (
         <div className="flex-shrink-0 w-8 h-8 rounded overflow-hidden">
-          <img
+          <FadeImage
             src={thumbnailImage}
             alt={project.title}
             className="w-full h-full object-cover"

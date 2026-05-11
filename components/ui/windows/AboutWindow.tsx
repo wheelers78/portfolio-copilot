@@ -6,6 +6,7 @@ import { SplitTextHeading } from "../SplitTextHeading";
 import { BrandLogoRail } from "../brand-logo-rail";
 import { FadeInUp } from "../FadeInUp";
 import { OrbitDiagram } from "../OrbitDiagram";
+import FadeImage from "../FadeImage";
 
 interface TabPosition {
   left: number;
@@ -65,7 +66,7 @@ function AboutContent() {
       </div>
 
       <div className="pt-4 flex justify-center pb-8">
-        <img
+        <FadeImage
           src="/images/profile.png"
           alt="Paul Whelan"
           className="h-80 w-80 object-cover"
@@ -223,7 +224,7 @@ function ExperienceContent() {
                   transition: "max-height 0.3s ease",
                 }}
               >
-                <img
+                <FadeImage
                   src={`/images/${exp.hoverImage}`}
                   alt={exp.company}
                   className="w-full h-[120px] object-cover"
